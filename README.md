@@ -1,6 +1,6 @@
 # GitHub Actions Wizard
 
-**GitHub Actions Wizard** is a simple wizard for generating GitHub Actions workflows for common tasks.
+**GitHub Actions Wizard** is a simple tool for generating GitHub Actions workflows for common tasks.
 
 It goes beyond simple workflow generation by automatically setting up necessary permissions (such as creating AWS IAM Roles and Policies for S3 or Lambda deployments).
 
