@@ -2,7 +2,9 @@
 
 **GitHub Actions Wizard** is a simple wizard for generating GitHub Actions workflows for common tasks.
 
-It is a CLI tool that helps you quickly generate GitHub Actions workflow files for common tasks like deployment and testing. It goes beyond simple workflow generation by automatically setting up necessary permissions (such as creating AWS IAM Roles and Policies for S3 or Lambda deployments), so you don't have to remember the details every time you set up CI/CD for a new repository.
+It is a CLI tool that helps you quickly generate GitHub Actions workflow files for common tasks like deployment and testing.
+
+It goes beyond simple workflow generation by automatically setting up necessary permissions (such as creating AWS IAM Roles and Policies for S3 or Lambda deployments), so you don't have to remember the details every time you set up CI/CD for a new repository.
 
 Generated workflow files are saved in your repository's `.github/workflows` folder. You can further customize these files to suit your project's specific needs, while skipping the repetitive boilerplate.
 
