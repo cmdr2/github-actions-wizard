@@ -4,26 +4,18 @@ from . import aws, forms, cmd
 from .workflow import Workflow
 
 
-def test_workflow():
-    trigger_type = forms.ask_test_trigger()
+def main():
+    if not os.path.exists(".git"):
+        print("This script must be run from a Git repository.")
+        return
 
-    if trigger_type == "commit":
-        gh_branch = forms.ask_github_branch_name()
-        workflow = Workflow(name="Test on Push", run_name=f"Test on push to {gh_branch}")
-        workflow.set_trigger_push(gh_branch)
-    elif trigger_type == "release":
-        workflow = Workflow(name="Test on Release", run_name="Test on release creation")
-        workflow.set_release_trigger()
-    elif trigger_type == "periodic":
-        cron = forms.ask_cron_schedule()
-        workflow = Workflow(name="Test on Schedule", run_name=f"Test on schedule ({cron})")
-        workflow.add_cron_step(cron)
+    print(
+        """# GitHub Actions Wizard
+https://github.com/cmdr2/github-actions-wizard
+"""
+    )
 
-    workflow.add_job_shell_step("test", "# Add your test commands here", name="Run tests")
-    workflow_file = workflow.write("test_workflow.yml")
-
-    print("\n✅ Test workflow setup complete.")
-    print(f"Workflow written: {workflow_file}. Please customize it as necessary.")
+    deployment_workflow()
 
 
 def deployment_workflow():
@@ -97,24 +89,6 @@ def lambda_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflo
     print("\n✅ Lambda setup complete.")
     print(f"Workflow written: {workflow_file}. Please customize it as necessary.")
     print(f"**IMPORTANT:** Set GitHub repo variable {ROLE_ENV_VAR} to {role_arn}")
-
-
-def main():
-    if not os.path.exists(".git"):
-        print("This script must be run from a Git repository.")
-        return
-
-    print(
-        """# GitHub Actions Wizard
-https://github.com/cmdr2/github-actions-wizard
-"""
-    )
-    action_type = forms.ask_action_type()
-
-    if action_type == "test":
-        test_workflow()
-    elif action_type == "deployment":
-        deployment_workflow()
 
 
 if __name__ == "__main__":

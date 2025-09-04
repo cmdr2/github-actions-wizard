@@ -1,24 +1,6 @@
 from .cmd import get_default_github_repo
 
 
-def ask_action_type():
-    action_type = prompt_options("Select action type:", [("test", "Test"), ("deployment", "Deployment")])
-
-    return action_type
-
-
-def ask_test_trigger():
-    trigger_type = prompt_options(
-        "Select test trigger:",
-        [
-            ("commit", "On branch push"),
-            ("release", "On release creation"),
-            ("periodic", "At periodic intervals (automatically)"),
-        ],
-    )
-    return trigger_type
-
-
 def ask_deployment_target():
     target = prompt_options("Select deployment target:", [("aws_s3", "AWS S3"), ("aws_lambda", "AWS Lambda")])
     return target
@@ -52,17 +34,6 @@ def ask_upload_bundle_format():
         "Select upload format:", [("zip", "Zip to a single file"), ("copy_all_files", "Copy all files directly")]
     )
     return upload_format
-
-
-def ask_cron_schedule():
-    freq = prompt_options("Select interval:", [("daily", "Daily"), ("weekly", "Weekly"), ("custom", "Custom cron")])
-    if freq == "daily":
-        cron = "0 0 * * *"
-    elif freq == "weekly":
-        cron = "0 0 * * 0"
-    else:
-        cron = input("Enter custom cron schedule (e.g. '0 0 * * *'): ").strip()
-    return cron
 
 
 def ask_github_repo_name():

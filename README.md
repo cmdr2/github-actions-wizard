@@ -1,6 +1,6 @@
 # GitHub Actions Wizard
 
-**GitHub Actions Wizard** is a simple tool for generating GitHub Actions workflows for common tasks.
+**GitHub Actions Wizard** is a simple tool for generating GitHub Actions workflows for common deployment tasks.
 
 It goes beyond simple workflow generation by automatically setting up necessary permissions (such as creating AWS IAM Roles and Policies for S3 or Lambda deployments).
 
@@ -10,7 +10,7 @@ To use it, run the `github-actions-wizard` CLI tool in your repository's folder,
 
 ## Features
 
-- **Easy workflow generation** for deployments and tests
+- **Easy workflow generation** for deployments
 - **Automatic AWS permissions setup** for S3 and Lambda deployments
 - **Interactive CLI** guides you through configuration
 - **Edit generated workflows** to fine-tune for your project
@@ -23,17 +23,11 @@ I needed this for myself because I release a lot of projects. The deployment tar
 
 ---
 
-## Supported Deployment & Test Targets
+## Supported Deployment Targets
 
 Currently, GitHub Actions Wizard supports:
-
-- **Deployment:**
-	- AWS S3 (static site or file uploads)
-	- AWS Lambda (function deployment)
-- **Testing:**
-	- On commit (push to branch)
-	- On release creation
-	- On a schedule (cron)
+- AWS S3 (static site or zip-and-upload)
+- AWS Lambda (function deployment)
 
 ---
 
@@ -57,7 +51,7 @@ Run the wizard from the root of your Git repository:
 github-actions-wizard
 ```
 
-You'll be guided through a series of prompts to select the type of workflow (deployment or test), target platform, branch, and other details. The tool will then generate the appropriate workflow YAML file and, for AWS deployments, set up the required IAM roles and policies.
+You'll be guided through a series of prompts to select the deployment target, branch, and other details. The tool will then generate the appropriate workflow YAML file and, for AWS deployments, set up the required IAM roles and policies.
 
 ---
 
@@ -69,10 +63,6 @@ You'll be guided through a series of prompts to select the type of workflow (dep
 ```
 $ github-actions-wizard
 
-Select action type:
-1. Test
-2. Deployment
-Enter option number: 2
 Select deployment target:
 1. AWS S3
 2. AWS Lambda
@@ -102,10 +92,6 @@ After this, pushes to the `main` branch of this repo will automatically upload a
 ```
 $ github-actions-wizard
 
-Select action type:
-1. Test
-2. Deployment
-Enter option number: 2
 Select deployment target:
 1. AWS S3
 2. AWS Lambda
@@ -124,28 +110,6 @@ Workflow written: .github/workflows/deploy_to_s3.yml. Please customize it as nec
 ```
 
 After this, pushes to the `main` branch of this repo will automatically update the Lambda Function.
-
-### 3. Set up a Test Workflow
-
-```
-$ github-actions-wizard
-
-Select action type:
-1. Test
-2. Deployment
-Enter option number: 1
-Select test trigger:
-1. On branch push
-2. On release creation
-3. At periodic intervals (automatically)
-Enter option number: 1
-Enter GitHub branch name (will react to pushes on this branch) [default=main]: main
-
-✅ Test workflow setup complete.
-Workflow written: .github/workflows/test_workflow.yml. Please customize it as necessary.
-```
-
-After this, pushes to the `main` branch of this repo will automatically run the configured tests.
 
 ---
 
