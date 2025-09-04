@@ -2,11 +2,9 @@
 
 **GitHub Actions Wizard** is a simple wizard for generating GitHub Actions workflows for common tasks.
 
-It is a CLI tool that helps you quickly generate GitHub Actions workflow files for common tasks like deployment and testing.
+It goes beyond simple workflow generation by automatically setting up necessary permissions (such as creating AWS IAM Roles and Policies for S3 or Lambda deployments).
 
-It goes beyond simple workflow generation by automatically setting up necessary permissions (such as creating AWS IAM Roles and Policies for S3 or Lambda deployments), so you don't have to remember the details every time you set up CI/CD for a new repository.
-
-Generated workflow files are saved in your repository's `.github/workflows` folder. You can further customize these files to suit your project's specific needs, while skipping the repetitive boilerplate.
+To use it, run the `github-actions-wizard` CLI tool in your repository's folder, and answer the interactive prompts. The generated workflow files will be saved in your repository's `.github/workflows` folder. You can customize these files further, as necessary.
 
 ---
 
@@ -21,7 +19,7 @@ Generated workflow files are saved in your repository's `.github/workflows` fold
 
 While you can certainly write these workflow files yourself, this tool reduces the friction of setting up deployments each time a new GitHub repository is created. The deployment setup is more than just the workflow yaml file (for e.g. AWS targets need IAM Role and Policy creation).
 
-I needed this for myself because I release a lot of projects. The deployment targets vary per project - some copy files to AWS S3, others publish to PyPI, or release on itch.io, or deploy to AWS Lambda, and so on. It's a waste of time to look up and manually configure each time I release a new project.
+I needed this for myself because I release a lot of projects. The deployment targets vary per project - some copy files to AWS S3, others publish to PyPI, some release on itch.io, others deploy to AWS Lambda, and so on. It's a waste of time to look up and configure manually each time I release a new project.
 
 ---
 
