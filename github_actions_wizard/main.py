@@ -30,18 +30,28 @@ def deployment_workflow():
     target = forms.ask_deployment_target()
 
     gh_owner, gh_repo = forms.ask_github_repo_name()
-    gh_branch = forms.ask_github_branch_name()
+    gh_branch = None
+    trigger = forms.ask_deployment_trigger()
+
+    workflow = Workflow()
+    if trigger == "push":
+        gh_branch = forms.ask_github_branch_name(help_text="will react to pushes on this branch")
+        workflow.set_trigger_push(gh_branch)
+    elif trigger == "release":
+        workflow.set_release_trigger()
 
     if target.startswith("aws_"):
         aws_account_id = aws.get_account_id()
 
+        workflow.add_id_token_write_permission("deploy")
+
         if target == "aws_s3":
-            s3_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch)
+            s3_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflow)
         elif target == "aws_lambda":
-            lambda_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch)
+            lambda_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflow)
 
 
-def s3_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch):
+def s3_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflow):
     ROLE_ENV_VAR = "S3_DEPLOY_ROLE"
     upload_format = forms.ask_upload_bundle_format()
 
@@ -49,8 +59,7 @@ def s3_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch):
 
     role_arn = aws.create_policy_and_role_for_github_to_s3_deploy(aws_account_id, s3_path, gh_owner, gh_repo, gh_branch)
 
-    workflow = Workflow(name="Deploy to S3")
-    workflow.set_trigger_push(gh_branch)
+    workflow.set_name("Deploy to S3")
 
     aws.add_workflow_fetch_aws_credentials_step(workflow, role_env_var=ROLE_ENV_VAR)
 
@@ -67,7 +76,7 @@ def s3_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch):
     print(f"**IMPORTANT:** Set GitHub repo variable {ROLE_ENV_VAR} to {role_arn}")
 
 
-def lambda_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch):
+def lambda_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflow):
     ROLE_ENV_VAR = "LAMBDA_DEPLOY_ROLE"
 
     function_name = forms.ask_aws_lambda_function_name()
@@ -76,8 +85,7 @@ def lambda_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch):
         aws_account_id, function_name, gh_owner, gh_repo, gh_branch
     )
 
-    workflow = Workflow(name="Deploy to Lambda")
-    workflow.set_trigger_push(gh_branch)
+    workflow.set_name("Deploy to Lambda")
 
     aws.add_workflow_fetch_aws_credentials_step(workflow, role_env_var=ROLE_ENV_VAR)
 

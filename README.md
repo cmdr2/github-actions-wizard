@@ -78,6 +78,10 @@ Select deployment target:
 2. AWS Lambda
 Enter option number: 1
 Enter GitHub repo (e.g., cmdr2/carbon, or full URL): myuser/myrepo
+Select deployment trigger:
+1. On branch push
+2. On release creation
+Enter option number: 1
 Enter branch name (will react to pushes on this branch) [default=main]: main
 Select upload format:
 1. Zip to a single file
@@ -107,7 +111,10 @@ Select deployment target:
 2. AWS Lambda
 Enter option number: 2
 Enter GitHub repo (e.g., cmdr2/carbon, or full URL): myuser/myrepo
-Enter branch name (will react to pushes on this branch) [default=main]: main
+Select deployment trigger:
+1. On branch push
+2. On release creation
+Enter option number: 2
 Enter the AWS Lambda function name to deploy to: my-lambda-func
 ... (Automatically creates the necessary IAM roles)
 
@@ -128,8 +135,8 @@ Select action type:
 2. Deployment
 Enter option number: 1
 Select test trigger:
-1. Every commit push
-2. Every release creation
+1. On branch push
+2. On release creation
 3. At periodic intervals (automatically)
 Enter option number: 1
 Enter GitHub branch name (will react to pushes on this branch) [default=main]: main

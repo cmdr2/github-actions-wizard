@@ -7,8 +7,17 @@ class Workflow:
         self.workflow = {"name": name, "run-name": run_name, "on": {}, "jobs": {}}
 
         # add default steps
-        self.add_job("deploy", permissions={"id-token": "write", "contents": "read"})
-        self.add_job_step("deploy", {"name": "Checkout", "uses": "actions/checkout@v3"})
+        self.add_job("deploy", runs_on="ubuntu-latest")
+        self.add_job_step("deploy", {"name": "Checkout", "uses": "actions/checkout@v4"})
+
+    def set_name(self, name, run_name=None):
+        self.workflow["name"] = name
+        if run_name:
+            self.workflow["run-name"] = run_name
+        return self
+
+    def add_id_token_write_permission(self, job_id):
+        self.add_job(job_id, permissions={"id-token": "write", "contents": "read"})
 
     def set_trigger_push(self, branches):
         self.workflow["on"]["push"] = {"branches": branches}
@@ -16,10 +25,8 @@ class Workflow:
     def set_release_trigger(self, types=["created"]):
         self.workflow["on"]["release"] = {"types": types}
 
-    def add_job(self, job_id, runs_on="ubuntu-latest", permissions=None):
+    def add_job(self, job_id, runs_on="ubuntu-latest"):
         job = {"runs-on": runs_on, "steps": []}
-        if permissions:
-            job["permissions"] = permissions
         self.workflow["jobs"][job_id] = job
 
     def add_job_step(self, job_id, step):

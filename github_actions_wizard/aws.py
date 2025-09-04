@@ -142,6 +142,7 @@ def _get_lambda_update_iam_policy(function_name):
 
 
 def _get_github_iam_trust_policy(aws_account_id, gh_owner, gh_repo, gh_branch):
+    ref = f"ref:refs/heads/{gh_branch}" if gh_branch else "ref:refs/tags/*"
     policy_doc = {
         "Version": "2012-10-17",
         "Statement": [
@@ -154,7 +155,7 @@ def _get_github_iam_trust_policy(aws_account_id, gh_owner, gh_repo, gh_branch):
                 "Condition": {
                     "StringEquals": {
                         "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-                        "token.actions.githubusercontent.com:sub": f"repo:{gh_owner}/{gh_repo}:ref:refs/heads/{gh_branch}",
+                        "token.actions.githubusercontent.com:sub": f"repo:{gh_owner}/{gh_repo}:{ref}",
                     }
                 },
             }

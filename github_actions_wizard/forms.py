@@ -11,8 +11,8 @@ def ask_test_trigger():
     trigger_type = prompt_options(
         "Select test trigger:",
         [
-            ("commit", "Every commit push"),
-            ("release", "Every release creation"),
+            ("commit", "On branch push"),
+            ("release", "On release creation"),
             ("periodic", "At periodic intervals (automatically)"),
         ],
     )
@@ -34,6 +34,17 @@ def ask_aws_s3_path(is_file=False):
 def ask_aws_lambda_function_name():
     function_name = input("Enter the AWS Lambda function name to deploy to (e.g., my-function): ").strip()
     return function_name
+
+
+def ask_deployment_trigger():
+    trigger = prompt_options(
+        "Select deployment trigger:",
+        [
+            ("push", "On branch push"),
+            ("release", "On release creation"),
+        ],
+    )
+    return trigger
 
 
 def ask_upload_bundle_format():
@@ -77,8 +88,8 @@ def ask_github_repo_name():
     return owner, repo
 
 
-def ask_github_branch_name():
-    branch = input("Enter branch name (will react to pushes on this branch) [default=main]: ").strip()
+def ask_github_branch_name(help_text="will react to pushes on this branch"):
+    branch = input(f"Enter branch name ({help_text}) [default=main]: ").strip()
     return branch or "main"
 
 
