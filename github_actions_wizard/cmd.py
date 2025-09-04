@@ -16,7 +16,7 @@ def run(cmd):
 
 
 def as_temp_file(data, suffix=""):
-    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp_file:
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix, mode="w") as tmp_file:
         json.dump(data, tmp_file, indent=2)
         return tmp_file.name
 
