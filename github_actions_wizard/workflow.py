@@ -17,7 +17,7 @@ class Workflow:
         return self
 
     def add_id_token_write_permission(self, job_id):
-        self.add_job(job_id, permissions={"id-token": "write", "contents": "read"})
+        self.workflow["jobs"][job_id]["permissions"] = {"id-token": "write", "contents": "read"}
 
     def set_trigger_push(self, branches):
         self.workflow["on"]["push"] = {"branches": branches}
