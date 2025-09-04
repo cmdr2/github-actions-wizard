@@ -7,6 +7,8 @@ from .cmd import run, run_capture, as_temp_file
 def get_account_id():
     ensure_aws_cli_exists()
 
+    print("Fetching your AWS Account ID...")
+
     output = run_capture(["aws", "sts", "get-caller-identity", "--query", "Account", "--output", "text"])
     return output.strip()
 
