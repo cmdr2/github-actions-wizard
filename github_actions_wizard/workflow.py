@@ -10,6 +10,7 @@ class Workflow:
 
         # add default steps
         self.add_job("deploy", runs_on="ubuntu-latest")
+        self.add_read_permission("deploy")
         self.add_job_step("deploy", {"name": "Checkout", "uses": "actions/checkout@v4"})
 
     def set_name(self, name, run_name=None):
@@ -18,8 +19,17 @@ class Workflow:
             self.workflow["run-name"] = run_name
         return self
 
+    def add_read_permission(self, job_id):
+        if "permissions" not in self.workflow["jobs"][job_id]:
+            self.workflow["jobs"][job_id]["permissions"] = {}
+
+        self.workflow["jobs"][job_id]["permissions"]["contents"] = "read"
+
     def add_id_token_write_permission(self, job_id):
-        self.workflow["jobs"][job_id]["permissions"] = {"id-token": "write", "contents": "read"}
+        if "permissions" not in self.workflow["jobs"][job_id]:
+            self.workflow["jobs"][job_id]["permissions"] = {}
+
+        self.workflow["jobs"][job_id]["permissions"]["id-token"] = "write"
 
     def set_trigger_push(self, branches):
         self.workflow["on"]["push"] = {"branches": branches}
