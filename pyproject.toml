@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "github-actions-wizard"
+version = "1.0.0"
+description = "A simple wizard for generating GitHub Actions workflows for common tasks."
+authors = [
+    { name = "cmdr2" }
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pyyaml"
+]
+
+[project.urls]
+Homepage = "https://github.com/cmdr2/github-actions-wizard"
+Repository = "https://github.com/cmdr2/github-actions-wizard"
+
+[project.scripts]
+github-actions-wizard = "github_actions_wizard.main:main"
