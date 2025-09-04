@@ -45,9 +45,10 @@ class Workflow:
             run_cmd = "\n".join(cmds)
         else:
             run_cmd = cmds
-        step = {"run": run_cmd, "shell": shell}
+        step = {}
         if name:
             step["name"] = name
+        step.update({"run": run_cmd, "shell": shell})
         self.add_job_step(job_id, step)
         return self
 
