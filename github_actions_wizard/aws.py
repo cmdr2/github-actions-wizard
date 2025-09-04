@@ -74,9 +74,9 @@ def attach_iam_policy(role_name, policy_arn):
 def add_workflow_fetch_aws_credentials_step(workflow, role_env_var, aws_region="us-east-1"):
     step = {
         "name": "Configure AWS credentials",
-        "uses": "aws-actions/configure-aws-credentials@v2",
+        "uses": "aws-actions/configure-aws-credentials@v4",
         "with": {
-            "role-to-assume": f"${{ vars.{role_env_var} }}",
+            "role-to-assume": "${{ vars." + role_env_var + " }}",
             "aws-region": aws_region,
         },
     }
