@@ -49,7 +49,7 @@ def s3_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflow):
 
     s3_path = forms.ask_aws_s3_path(is_file=upload_format == "zip")
 
-    role_arn = aws.create_policy_and_role_for_github_to_s3_deploy(aws_account_id, s3_path, gh_owner, gh_repo, gh_branch)
+    role_arn = aws.create_policy_and_role_for_github_to_s3_deploy(aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, upload_format)
 
     workflow.set_name("Deploy to S3")
 
