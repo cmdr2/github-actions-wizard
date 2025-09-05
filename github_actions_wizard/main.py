@@ -110,13 +110,14 @@ def pypi_publish_workflow(workflow):
     pypi.add_publish_to_pypi_step(workflow)
 
     workflow_file = workflow.write("publish_to_pypi.yml")
+    workflow_file_name = os.path.basename(workflow_file)
 
     print("\n✅ PyPI setup complete.")
     print(f"Workflow written: {workflow_file}. Please customize it as necessary.")
     print(
         "**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/"
     )
-    print(f"Note: You can use the workflow file name ({workflow_file}) while configuring the trusted publisher.")
+    print(f"Note: You can use the workflow file name ({workflow_file_name}) while configuring the trusted publisher.")
 
 
 if __name__ == "__main__":
