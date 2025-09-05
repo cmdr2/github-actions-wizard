@@ -108,6 +108,7 @@ def pypi_publish_workflow(workflow):
 
     print("\n✅ PyPI setup complete.")
     print(f"Workflow written: {workflow_file}. Please customize it as necessary.")
+    print("**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/")
 
 if __name__ == "__main__":
     main()
