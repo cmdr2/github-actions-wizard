@@ -98,6 +98,8 @@ def lambda_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflo
 def pypi_publish_workflow(workflow):
     package_name = cmd.get_package_name_from_pyproject()
 
+    print(f"Setting up PyPI publish for package: {package_name}")
+
     workflow.set_name("Publish to PyPI")
     workflow.add_id_token_write_permission("deploy")
 
