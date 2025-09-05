@@ -48,22 +48,3 @@ def add_publish_to_pypi_step(workflow):
         "with": {"verbose": True},
     }
     workflow.add_job_step("deploy", **step)
-
-
-def check_project_exists(project_name):
-    import urllib.request
-    import urllib.error
-
-    url = f"https://pypi.org/pypi/{project_name}/json"
-    try:
-        with urllib.request.urlopen(url) as response:
-            if response.status == 200:
-                return True
-    except urllib.error.HTTPError as e:
-        if e.code == 404:
-            return False
-        raise
-    except Exception:
-        return False
-
-    return False

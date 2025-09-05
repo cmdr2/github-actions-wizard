@@ -97,11 +97,6 @@ def lambda_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflo
 
 def pypi_publish_workflow(workflow):
     package_name = cmd.get_package_name_from_pyproject()
-    if not pypi.check_project_exists(package_name):
-        print(
-            f"Project '{package_name}' does not exist on PyPI. Please create it first - https://pypi.org/manage/projects/"
-        )
-        return
 
     workflow.set_name("Publish to PyPI")
     workflow.add_id_token_write_permission("deploy")
