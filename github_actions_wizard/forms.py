@@ -2,7 +2,14 @@ from .cmd import get_default_github_repo
 
 
 def ask_deployment_target():
-    target = prompt_options("Select deployment target:", [("aws_s3", "AWS S3"), ("aws_lambda", "AWS Lambda")])
+    target = prompt_options(
+        "Select deployment target:",
+        [
+            ("aws_s3", "AWS S3"),
+            ("aws_lambda", "AWS Lambda"),
+            ("pypi", "Publish to PyPI"),
+        ],
+    )
     return target
 
 

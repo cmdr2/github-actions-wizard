@@ -1,6 +1,6 @@
 import os
 
-from . import aws, forms, cmd
+from . import aws, pypi, forms, cmd
 from .workflow import Workflow
 
 
@@ -41,6 +41,8 @@ def deployment_workflow():
             s3_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflow)
         elif target == "aws_lambda":
             lambda_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflow)
+    elif target == "pypi":
+        pypi_publish_workflow(workflow)
 
 
 def s3_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflow):
@@ -90,6 +92,22 @@ def lambda_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflo
     print(f"Workflow written: {workflow_file}. Please customize it as necessary.")
     print(f"**IMPORTANT:** Set GitHub repo variable {ROLE_ENV_VAR} to {role_arn}")
 
+
+def pypi_publish_workflow(workflow):
+    package_name = cmd.get_package_name_from_pyproject()
+    workflow.set_name("Publish to PyPI")
+    workflow.add_id_token_write_permission("deploy")
+
+    pypi.add_setup_python_step(workflow)
+    pypi.add_install_dependencies_step(workflow)
+    pypi.add_check_pypi_version_step(workflow, package_name)
+    pypi.add_build_package_step(workflow)
+    pypi.add_publish_to_pypi_step(workflow)
+
+    workflow_file = workflow.write("publish_to_pypi.yml")
+
+    print("\n✅ PyPI setup complete.")
+    print(f"Workflow written: {workflow_file}. Please customize it as necessary.")
 
 if __name__ == "__main__":
     main()

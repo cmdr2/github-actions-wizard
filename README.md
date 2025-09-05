@@ -28,6 +28,7 @@ I needed this for myself because I release a lot of projects. The deployment tar
 Currently, GitHub Actions Wizard supports:
 - AWS S3 (static site or zip-and-upload)
 - AWS Lambda (function deployment)
+- Publish to PyPI
 
 ---
 
@@ -66,6 +67,7 @@ $ github-actions-wizard
 Select deployment target:
 1. AWS S3
 2. AWS Lambda
+3. Publish to PyPI
 Enter option number: 1
 Enter GitHub repo (e.g., cmdr2/carbon, or full URL): myuser/myrepo
 Select deployment trigger:
@@ -95,6 +97,7 @@ $ github-actions-wizard
 Select deployment target:
 1. AWS S3
 2. AWS Lambda
+3. Publish to PyPI
 Enter option number: 2
 Enter GitHub repo (e.g., cmdr2/carbon, or full URL): myuser/myrepo
 Select deployment trigger:
