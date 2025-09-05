@@ -28,7 +28,9 @@ def create_policy_and_role_for_github_deploy(aws_account_id, gh_owner, gh_repo, 
     return role_arn
 
 
-def create_policy_and_role_for_github_to_s3_deploy(aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, upload_format):
+def create_policy_and_role_for_github_to_s3_deploy(
+    aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, upload_format
+):
     s3_bucket_name = s3_path.split("/")[0]
     iam_name = f"{gh_owner}-{gh_repo}-github-deploy-to-s3"
 

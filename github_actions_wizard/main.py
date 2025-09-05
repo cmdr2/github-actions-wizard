@@ -51,7 +51,9 @@ def s3_deploy_workflow(aws_account_id, gh_owner, gh_repo, gh_branch, workflow):
 
     s3_path = forms.ask_aws_s3_path(is_file=upload_format == "zip")
 
-    role_arn = aws.create_policy_and_role_for_github_to_s3_deploy(aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, upload_format)
+    role_arn = aws.create_policy_and_role_for_github_to_s3_deploy(
+        aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, upload_format
+    )
 
     workflow.set_name("Deploy to S3")
 
@@ -114,7 +116,10 @@ def pypi_publish_workflow(workflow):
 
     print("\n✅ PyPI setup complete.")
     print(f"Workflow written: {workflow_file}. Please customize it as necessary.")
-    print("**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/")
+    print(
+        "**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/"
+    )
+
 
 if __name__ == "__main__":
     main()

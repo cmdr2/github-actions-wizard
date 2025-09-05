@@ -57,6 +57,7 @@ class Workflow:
             run_cmd = cmds
         # Use ruamel.yaml.scalarstring.LiteralScalarString for block style if multi-line
         from ruamel.yaml.scalarstring import LiteralScalarString
+
         if "\n" in run_cmd:
             step["run"] = LiteralScalarString(run_cmd)
         else:
