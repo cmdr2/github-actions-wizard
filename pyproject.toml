@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "github-actions-wizard"
-version = "1.0.0"
+version = "1.0.1"
 description = "A simple wizard for generating GitHub Actions workflows for common tasks."
 authors = [
     { name = "cmdr2" }
@@ -13,7 +13,8 @@ license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
-    "ruamel.yaml"
+    "ruamel.yaml",
+    "toml"
 ]
 
 [project.urls]
