@@ -24,7 +24,7 @@ jobs:
       id: check-version
       run: |-
         TOML_VERSION=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['version'])")
-        PYPI_VERSION=$(python -c "import requests; print(requests.get('https://pypi.org/pypi/github-actions-wizard/json').json()['info']['version'])")
+        PYPI_VERSION=$(python -c "import requests; r = requests.get('https://pypi.org/pypi/github-actions-wizard/json'); print(None if r.status_code == 404 else r.json()['info']['version'])")
         echo "Local version: $TOML_VERSION"
         echo "PyPI version: $PYPI_VERSION"
         if [ "$TOML_VERSION" = "$PYPI_VERSION" ]; then
