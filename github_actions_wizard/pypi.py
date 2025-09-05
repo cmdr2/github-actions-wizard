@@ -16,7 +16,7 @@ def add_check_pypi_version_step(workflow, package_name):
         "deploy",
         [
             f"TOML_VERSION=$(python -c \"import toml; print(toml.load('pyproject.toml')['project']['version'])\")",
-            f"PYPI_VERSION=$(python -c \"import requests; print(requests.get('https://pypi.org/pypi/{package_name}/json').json()['info']['version'])\")",
+            f"PYPI_VERSION=$(python -c \"import requests; r = requests.get('https://pypi.org/pypi/{package_name}/json'); print(None if r.status_code == 404 else r.json()['info']['version'])\")",
             'echo "Local version: $TOML_VERSION"',
             'echo "PyPI version: $PYPI_VERSION"',
             'if [ "$TOML_VERSION" = "$PYPI_VERSION" ]; then',
