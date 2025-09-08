@@ -1,5 +1,6 @@
 import os
 from ruamel.yaml import YAML
+from ruamel.yaml.scalarstring import LiteralScalarString
 
 yaml = YAML()
 
@@ -101,13 +102,7 @@ class Workflow:
         else:
             run_cmd = cmds
 
-        # Use ruamel.yaml.scalarstring.LiteralScalarString for block style if multi-line
-        from ruamel.yaml.scalarstring import LiteralScalarString
-
-        if "\n" in run_cmd:
-            step["run"] = LiteralScalarString(run_cmd)
-        else:
-            step["run"] = run_cmd
+        step["run"] = LiteralScalarString(run_cmd)  # Always use LiteralScalarString for block style (|) in YAML
         self.add_job_step(job_id, **step)
         return self
 
