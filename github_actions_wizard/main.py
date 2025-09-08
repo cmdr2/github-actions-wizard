@@ -129,7 +129,9 @@ def add_s3_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, gh_br
         aws.add_workflow_s3_sync_step(workflow, job_id, ".", s3_path)
 
     print("")
-    print(f"**IMPORTANT:** Set GitHub repo variable {ROLE_ENV_VAR} to {role_arn}")
+    print(
+        f"**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} environment variable (in your GitHub repository) to {role_arn}"
+    )
 
 
 def add_lambda_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, gh_branch):
@@ -144,7 +146,9 @@ def add_lambda_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, g
     aws.add_workflow_lambda_deploy_step(workflow, job_id, function_name, "function.zip")
 
     print("")
-    print(f"**IMPORTANT:** Set GitHub repo variable {ROLE_ENV_VAR} to {role_arn}")
+    print(
+        f"**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} environment variable (in your GitHub repository) to {role_arn}"
+    )
 
 
 def add_pypi_deploy_job(workflow, job_id):
