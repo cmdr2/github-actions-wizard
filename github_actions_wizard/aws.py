@@ -99,7 +99,7 @@ def add_workflow_s3_sync_step(workflow, job_id, local_path, s3_path):
 
 
 def add_workflow_lambda_deploy_step(workflow, job_id, function_name, zip_file):
-    cmd = f"aws lambda update-function-code --function-name '{function_name}' --zip-file 'fileb://{zip_file}'"
+    cmd = f"aws lambda update-function-code --function-name '{function_name}' --zip-file 'fileb://{zip_file}' --query LastUpdateStatus"
     workflow.add_job_shell_step(job_id, cmd, name="Deploy to Lambda")
     return workflow
 
