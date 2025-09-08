@@ -128,6 +128,7 @@ def add_s3_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, gh_br
     elif upload_format == "copy_all_files":
         aws.add_workflow_s3_sync_step(workflow, job_id, ".", s3_path)
 
+    print("")
     print(f"**IMPORTANT:** Set GitHub repo variable {ROLE_ENV_VAR} to {role_arn}")
 
 
@@ -142,6 +143,7 @@ def add_lambda_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, g
     cmd.add_workflow_zip_step(workflow, job_id, zip_name="function.zip")
     aws.add_workflow_lambda_deploy_step(workflow, job_id, function_name, "function.zip")
 
+    print("")
     print(f"**IMPORTANT:** Set GitHub repo variable {ROLE_ENV_VAR} to {role_arn}")
 
 
@@ -155,6 +157,7 @@ def add_pypi_deploy_job(workflow, job_id):
     pypi.add_build_package_step(workflow, job_id)
     pypi.add_publish_to_pypi_step(workflow, job_id)
 
+    print("")
     print(
         "**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/"
     )
