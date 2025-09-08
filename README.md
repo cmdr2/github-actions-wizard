@@ -4,7 +4,7 @@
 
 It goes beyond simple workflow generation by automatically setting up necessary permissions (such as creating AWS IAM Roles and Policies for S3 or Lambda deployments).
 
-To use it, run the `github-actions-wizard` CLI tool in your repository's folder, and answer the interactive prompts. The generated workflow files will be saved in your repository's `.github/workflows` folder. You can customize these files further, as necessary.
+To use it, run the `github-actions-wizard` CLI tool in your repository's folder, and answer the interactive prompts. The generated workflow file will be saved in your repository's `.github/workflows` folder. You can customize the file further, as necessary.
 
 ---
 
@@ -142,7 +142,7 @@ After this, pushes to the `main` branch of this repo will automatically update t
 
 ## Customization
 
-After generation, you can edit the workflow YAML files in `.github/workflows` to add project-specific steps or modify the configuration as needed.
+After generation, you can edit the workflow YAML file in `.github/workflows` to add project-specific steps or modify the configuration as needed.
 
 ---
 
