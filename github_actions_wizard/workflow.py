@@ -22,31 +22,32 @@ class Workflow:
             self.workflow["run-name"] = run_name
         return self
 
-    def add_read_permission(self, job_id):
-        if "permissions" not in self.workflow["jobs"][job_id]:
-            self.workflow["jobs"][job_id]["permissions"] = {}
-
-        self.workflow["jobs"][job_id]["permissions"]["contents"] = "read"
-
-    def add_id_token_write_permission(self, job_id):
-        if "permissions" not in self.workflow["jobs"][job_id]:
-            self.workflow["jobs"][job_id]["permissions"] = {}
-
-        self.workflow["jobs"][job_id]["permissions"]["id-token"] = "write"
-
     def add_trigger_push(self, branches):
         self._add_trigger("push", "branches", branches)
 
     def add_trigger_release(self, types=["created"]):
         self._add_trigger("release", "types", types)
 
+    def add_permission(self, permission, level):
+        self.workflow["permissions"] = self.workflow.get("permissions", {})
+        self.workflow["permissions"][permission] = level
+
+    def set_field(self, field, value):
+        self.workflow[field] = value
+
     def add_job(self, job_id, **job):
         job["runs-on"] = job.get("runs-on", "ubuntu-latest")
         job["steps"] = []
         if "needs" in job and not isinstance(job["needs"], list):
             job["needs"] = [job["needs"]]
-        job["permissions"] = job.get("permissions", {"contents": "read"})
+
         self.workflow["jobs"][job_id] = job
+
+        self.add_job_permission(job_id, "contents", "read")
+
+    def add_job_permission(self, job_id, permission, level):
+        self.workflow["jobs"][job_id]["permissions"] = self.workflow["jobs"][job_id].get("permissions", {})
+        self.workflow["jobs"][job_id]["permissions"][permission] = level
 
     def get_job_field(self, job_id, field):
         return self.workflow["jobs"][job_id].get(field)

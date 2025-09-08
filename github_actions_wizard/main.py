@@ -95,7 +95,7 @@ def add_deployment_job(workflow):
     else:
         workflow.add_checkout_step(job_id)
 
-    workflow.add_id_token_write_permission(job_id)
+    workflow.add_job_permission(job_id, "id-token", "write")
 
     # add the remaining target-specific deployment steps
     if target.startswith("aws_"):
@@ -107,6 +107,8 @@ def add_deployment_job(workflow):
             add_lambda_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, gh_branch)
     elif target == "pypi":
         add_pypi_deploy_job(workflow, job_id)
+    elif target == "github_pages":
+        add_github_pages_deploy_job(workflow, job_id)
 
     print(f"Added deployment step: {job_id}")
 
@@ -167,6 +169,21 @@ def add_pypi_deploy_job(workflow, job_id):
         "**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/"
     )
     print(f"Note: You can use the workflow file name ({workflow.file_name}) while configuring the trusted publisher.")
+
+
+def add_github_pages_deploy_job(workflow, job_id):
+    workflow.add_permission("pages", "write")
+    workflow.add_job_permission(job_id, "id-token", "write")
+
+    workflow.set_field("concurrency", {"group": "pages", "cancel-in-progress": True})
+
+    workflow.add_download_artifact_step(job_id, name="Download Artifact", path="public")
+    workflow.add_job_shell_step(job_id, "echo Publishing the 'public' folder", name="Publish Message")
+    workflow.add_job_step(job_id, name="Deploy to GitHub Pages", id="deployment", uses="actions/deploy-pages@v4")
+
+    workflow.set_job_field(
+        job_id, "environment", {"name": "github-pages", "url": "${{ steps.deployment.outputs.page_url }}"}
+    )
 
 
 def ensure_job_order(workflow):

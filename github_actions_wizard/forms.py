@@ -22,6 +22,7 @@ def ask_deployment_target():
             ("aws_s3", "AWS S3"),
             ("aws_lambda", "AWS Lambda"),
             ("pypi", "Publish to PyPI"),
+            ("github_pages", "GitHub Pages"),
         ],
     )
     return target
