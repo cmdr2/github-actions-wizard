@@ -40,6 +40,7 @@ class Workflow:
         self._add_trigger("release", "types", types)
 
     def add_job(self, job_id, **job):
+        job["runs-on"] = job.get("runs-on", "ubuntu-latest")
         job["steps"] = []
         if "needs" in job and not isinstance(job["needs"], list):
             job["needs"] = [job["needs"]]

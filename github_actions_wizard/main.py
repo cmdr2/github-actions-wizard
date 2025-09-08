@@ -48,7 +48,7 @@ def show_workflow_jobs(workflow):
 
 
 def add_build_job(workflow):
-    workflow.add_job("build", runs_on="ubuntu-latest")
+    workflow.add_job("build")
     workflow.add_checkout_step("build")
     workflow.add_job_shell_step("build", "echo Building...", name="Dummy Build Command")
     workflow.add_upload_artifact_step("build", path="build")
@@ -57,7 +57,7 @@ def add_build_job(workflow):
 
 
 def add_test_job(workflow):
-    workflow.add_job("test", runs_on="ubuntu-latest")
+    workflow.add_job("test")
 
     if workflow.has_job("build"):
         workflow.add_download_artifact_step("test", path="build")
@@ -73,7 +73,7 @@ def add_deployment_job(workflow):
     target = forms.ask_deployment_target()
     job_id = f"deploy_to_{target}"
 
-    workflow.add_job(job_id, runs_on="ubuntu-latest")
+    workflow.add_job(job_id)
 
     # get repo and trigger info
     gh_owner, gh_repo = forms.ask_github_repo_name()
@@ -95,10 +95,11 @@ def add_deployment_job(workflow):
     else:
         workflow.add_checkout_step(job_id)
 
+    workflow.add_id_token_write_permission(job_id)
+
     # add the remaining target-specific deployment steps
     if target.startswith("aws_"):
         aws_account_id = aws.get_account_id()
-        workflow.add_id_token_write_permission(job_id)
 
         if target == "aws_s3":
             add_s3_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, gh_branch)
