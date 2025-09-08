@@ -35,7 +35,7 @@ def interactive_workflow_wizard():
 
     # Write workflow file
     workflow_file = workflow.save()
-    print(f"\n✅ Workflow setup complete. Workflow written: {workflow_file}. Please customize it as necessary.")
+    print(f"\n✅ Workflow update complete. Workflow written: {workflow_file}. Please customize it as necessary.")
 
 
 def show_workflow_jobs(workflow):
