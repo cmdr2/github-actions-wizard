@@ -15,6 +15,14 @@ def ask_action_to_perform(workflow):
     return prompt_options("Select the action to perform:", options)
 
 
+def ask_build_type():
+    options = [
+        ("dummy", "Dummy build step"),
+        ("hugo", "Static site with Hugo"),
+    ]
+    return prompt_options("Select the type of build to perform:", options)
+
+
 def ask_deployment_target():
     target = prompt_options(
         "Select deployment target:",
