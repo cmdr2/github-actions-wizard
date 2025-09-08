@@ -12,6 +12,7 @@ To use it, run the `github-actions-wizard` CLI tool in your repository's folder,
 
 - **Easy workflow generation** for deployments
 - **Automatic AWS permissions setup** for S3 and Lambda deployments
+- **Supports multiple deployment targets** for setting up pipelines like `build -> test -> [deploy0, deploy1, ...]`
 - **Interactive CLI** guides you through configuration
 - **Edit generated workflows** to fine-tune for your project
 
