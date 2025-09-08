@@ -1,6 +1,20 @@
 from .cmd import get_default_github_repo
 
 
+def ask_action_to_perform(workflow):
+    has_build, has_test = workflow.has_job("build"), workflow.has_job("test")
+    if has_build and has_test:
+        return "deploy"
+
+    options = [("deploy", "Add a deployment target")]
+    if not has_build:
+        options.append(("build", "Add a build step"))
+    if not has_test:
+        options.append(("test", "Add a test step"))
+
+    return prompt_options("Select the action to perform:", options)
+
+
 def ask_deployment_target():
     target = prompt_options(
         "Select deployment target:",

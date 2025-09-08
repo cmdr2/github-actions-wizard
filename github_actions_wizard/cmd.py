@@ -23,9 +23,9 @@ def as_temp_file(data, suffix=""):
         return tmp_file.name
 
 
-def add_workflow_zip_step(workflow, zip_name="deploy.zip"):
+def add_workflow_zip_step(workflow, job_id, zip_name="deploy.zip"):
     zip_cmd = f"zip -r {zip_name} . -x '.git/*' '.github/*' 'LICENSE' 'README.md' '*.sh'"
-    workflow.add_job_shell_step("deploy", zip_cmd, name="Create Zip Archive")
+    workflow.add_job_shell_step(job_id, zip_cmd, name="Create Zip Archive")
     return workflow
 
 

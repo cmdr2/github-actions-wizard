@@ -73,7 +73,7 @@ def attach_iam_policy(role_name, policy_arn):
     run(["aws", "iam", "attach-role-policy", "--role-name", role_name, "--policy-arn", policy_arn])
 
 
-def add_workflow_fetch_aws_credentials_step(workflow, role_env_var, aws_region="us-east-1"):
+def add_workflow_fetch_aws_credentials_step(workflow, job_id, role_env_var, aws_region="us-east-1"):
     step = {
         "name": "Configure AWS credentials",
         "uses": "aws-actions/configure-aws-credentials@v4",
@@ -82,25 +82,25 @@ def add_workflow_fetch_aws_credentials_step(workflow, role_env_var, aws_region="
             "aws-region": aws_region,
         },
     }
-    workflow.add_job_step("deploy", **step)
+    workflow.add_job_step(job_id, **step)
     return workflow
 
 
-def add_workflow_s3_cp_step(workflow, local_path, s3_path, acl="public-read"):
+def add_workflow_s3_cp_step(workflow, job_id, local_path, s3_path, acl="public-read"):
     cmd = f"aws s3 cp '{local_path}' 's3://{s3_path}' --acl {acl}"
-    workflow.add_job_shell_step("deploy", cmd, name="Upload File to S3")
+    workflow.add_job_shell_step(job_id, cmd, name="Upload File to S3")
     return workflow
 
 
-def add_workflow_s3_sync_step(workflow, local_path, s3_path):
+def add_workflow_s3_sync_step(workflow, job_id, local_path, s3_path):
     cmd = f"aws s3 sync '{local_path}' 's3://{s3_path}' --exclude '.git/*' --exclude '.github/*' --exclude 'LICENSE' --exclude 'README.md' --exclude '*.sh' --acl public-read"
-    workflow.add_job_shell_step("deploy", cmd, name="Sync Files to S3")
+    workflow.add_job_shell_step(job_id, cmd, name="Sync Files to S3")
     return workflow
 
 
-def add_workflow_lambda_deploy_step(workflow, function_name, zip_file):
+def add_workflow_lambda_deploy_step(workflow, job_id, function_name, zip_file):
     cmd = f"aws lambda update-function-code --function-name '{function_name}' --zip-file 'fileb://{zip_file}'"
-    workflow.add_job_shell_step("deploy", cmd, name="Deploy to Lambda")
+    workflow.add_job_shell_step(job_id, cmd, name="Deploy to Lambda")
     return workflow
 
 
