@@ -128,6 +128,30 @@ Configuring Lambda deploy permissions in IAM...
 
 After this, pushes to the `main` branch of this repo will automatically update the AWS Lambda Function.
 
+### 3. Deploy to PyPI
+
+```
+$ github-actions-wizard
+
+Select a workflow template to start with:
+1. Python package - build and publish to PyPI
+2. Static Hugo website - build and deploy to GitHub Pages
+3. Static S3 website - build and deploy to AWS S3
+4. AWS Lambda - deploy a Python function to AWS Lambda
+5. Custom workflow
+Enter option number: 1
+
+Select deployment trigger:
+1. On branch push
+2. On release creation
+Enter option number: 2
+
+**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/
+Note: You can use the workflow file name (gha_workflow.yml) while configuring the trusted publisher.
+
+✅ Workflow update complete. Workflow written: .github/workflows/gha_workflow.yml. Please customize it as necessary.
+```
+
 ---
 
 ## Customization
