@@ -115,6 +115,8 @@ class Workflow:
         path = f".github/workflows/{self.file_name}"
         os.makedirs(os.path.dirname(path), exist_ok=True)
 
+        self._reorder_workflow()
+
         is_new_file = not os.path.exists(path)
         comment = (
             "# Generated initially using github-actions-wizard (https://github.com/cmdr2/github-actions-wizard)\n\n"
@@ -124,6 +126,19 @@ class Workflow:
                 f.write(comment)
             yaml.dump(self.workflow, f)
         return path
+
+    def _reorder_workflow(self):
+        def _reorder_job(job):
+            steps = job["steps"]
+            del job["steps"]
+            job["steps"] = steps  # Place the 'steps' key last
+
+        jobs = self.workflow["jobs"]
+        del self.workflow["jobs"]
+        self.workflow["jobs"] = jobs  # Place the 'jobs' key last
+
+        for job in jobs.values():
+            _reorder_job(job)
 
     def load(self):
         path = f".github/workflows/{self.file_name}"
