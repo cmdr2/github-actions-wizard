@@ -74,8 +74,7 @@ def add_python_build_steps(workflow, job_id):
     pypi.add_setup_python_step(workflow, job_id)
     pypi.add_install_dependencies_step(workflow, job_id)
     pypi.add_build_package_step(workflow, job_id)
-    workflow.add_job_shell_step(job_id, "cp pyproject.toml dist", name="Copy pyproject.toml to dist")
-    workflow.add_upload_artifact_step(job_id, path="dist")
+    workflow.add_upload_artifact_step(job_id, path=["dist", "pyproject.toml"])
 
 
 def add_hugo_build_steps(workflow, job_id):
@@ -196,7 +195,7 @@ def add_lambda_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, g
 
 
 def add_pypi_deploy_job(workflow, job_id):
-    workflow.add_download_artifact_step(job_id, path="dist")
+    workflow.add_download_artifact_step(job_id, path=".")
 
     pypi.add_setup_python_step(workflow, job_id)
     workflow.add_job_shell_step(job_id, ["python -m pip install --upgrade pip", "pip install toml requests"])

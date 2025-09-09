@@ -15,8 +15,8 @@ def add_check_pypi_version_step(workflow, job_id):
     workflow.add_job_shell_step(
         job_id,
         [
-            f"PACKAGE_NAME=$(python -c \"import toml; print(toml.load('dist/pyproject.toml')['project']['name'])\")",
-            f"TOML_VERSION=$(python -c \"import toml; print(toml.load('dist/pyproject.toml')['project']['version'])\")",
+            f"PACKAGE_NAME=$(python -c \"import toml; print(toml.load('pyproject.toml')['project']['name'])\")",
+            f"TOML_VERSION=$(python -c \"import toml; print(toml.load('pyproject.toml')['project']['version'])\")",
             f"PYPI_VERSION=$(python -c \"import requests; r = requests.get('https://pypi.org/pypi/$PACKAGE_NAME/json'); print(None if r.status_code == 404 else r.json()['info']['version'])\")",
             'echo "Package name: $PACKAGE_NAME"',
             'echo "Local version: $TOML_VERSION"',
