@@ -205,7 +205,7 @@ def add_pypi_deploy_job(workflow, job_id):
 
 
 def add_github_pages_deploy_job(workflow, job_id):
-    workflow.add_permission("pages", "write")
+    workflow.add_job_permission(job_id, "pages", "write")
 
     workflow.set_field("concurrency", {"group": "pages", "cancel-in-progress": True})
 
