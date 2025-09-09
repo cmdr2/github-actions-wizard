@@ -13,8 +13,7 @@ license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
-    "ruamel.yaml",
-    "toml"
+    "ruamel.yaml"
 ]
 
 [project.urls]

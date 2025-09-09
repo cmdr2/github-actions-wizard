@@ -1,8 +1,6 @@
 import subprocess
 import tempfile
 import json
-import toml
-import sys
 import os
 
 
@@ -47,18 +45,3 @@ def get_default_github_repo():
                         repo = url.replace(".git", "")
                         return repo
     return None
-
-
-def get_package_name_from_pyproject():
-    pyproject_path = "pyproject.toml"
-    if not os.path.exists(pyproject_path):
-        print("pyproject.toml not found. Cannot determine package name.")
-        sys.exit(1)
-
-    data = toml.load(pyproject_path)
-
-    try:
-        return data["project"]["name"]
-    except Exception:
-        print("Could not extract package name from pyproject.toml.")
-        sys.exit(1)

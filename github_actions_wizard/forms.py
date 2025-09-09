@@ -18,6 +18,7 @@ def ask_action_to_perform(workflow):
 def ask_build_type():
     options = [
         ("dummy", "Dummy build step"),
+        ("python_build", "Python wheel (.whl) and tar.gz package"),
         ("hugo", "Static site with Hugo"),
     ]
     return prompt_options("Select the type of build to perform:", options)
