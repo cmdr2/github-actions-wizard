@@ -64,6 +64,10 @@ class Workflow:
         return list(self.workflow["jobs"].keys())
 
     def add_upload_artifact_step(self, job_id, name="Upload Artifact", path="build"):
+        if isinstance(path, list):
+            path = "\n".join(path)
+            path = LiteralScalarString(path)  # Use block style (|) in YAML for multi-line strings
+
         step = {
             "name": name,
             "uses": "actions/upload-artifact@v4",
