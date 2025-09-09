@@ -17,7 +17,8 @@ def ask_action_to_perform(workflow):
 
 def ask_build_type():
     options = [
-        ("dummy", "Dummy build step"),
+        ("copy_all", "No action - copy all files (excluding .git and .github)"),
+        ("zip", "Zip to a single file"),
         ("python_build", "Python wheel (.whl) and tar.gz package"),
         ("hugo", "Static site with Hugo"),
     ]
@@ -37,8 +38,8 @@ def ask_deployment_target():
     return target
 
 
-def ask_aws_s3_path(is_file=False):
-    example = "my-bucket-name/some/path/file.zip" if is_file else "my-bucket-name/some/path"
+def ask_aws_s3_path():
+    example = "my-bucket-name/some/path (or path/to/file.zip)"
 
     s3_path = input(f"Enter AWS S3 path to deploy to (e.g., {example}): ").strip()
     return s3_path
@@ -58,13 +59,6 @@ def ask_deployment_trigger():
         ],
     )
     return trigger
-
-
-def ask_upload_bundle_format():
-    upload_format = prompt_options(
-        "Select upload format:", [("zip", "Zip to a single file"), ("copy_all_files", "Copy all files directly")]
-    )
-    return upload_format
 
 
 def ask_github_repo_name():

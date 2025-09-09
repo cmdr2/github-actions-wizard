@@ -28,13 +28,11 @@ def create_policy_and_role_for_github_deploy(aws_account_id, gh_owner, gh_repo, 
     return role_arn
 
 
-def create_policy_and_role_for_github_to_s3_deploy(
-    aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, upload_format
-):
+def create_policy_and_role_for_github_to_s3_deploy(aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, is_zip_file):
     s3_bucket_name = s3_path.split("/")[0]
     iam_name = f"{gh_owner}-{gh_repo}-github-deploy-to-s3"
 
-    policy_doc = _get_s3_put_iam_policy(s3_bucket_name, s3_path, upload_format)
+    policy_doc = _get_s3_put_iam_policy(s3_bucket_name, s3_path, is_zip_file)
 
     role_arn = create_policy_and_role_for_github_deploy(
         aws_account_id, gh_owner, gh_repo, gh_branch, iam_name, policy_doc
@@ -104,8 +102,8 @@ def add_workflow_lambda_deploy_step(workflow, job_id, function_name, zip_file):
     return workflow
 
 
-def _get_s3_put_iam_policy(s3_bucket_name, s3_path, upload_format):
-    res_path = s3_path if upload_format == "zip" else f"{s3_path}/*"
+def _get_s3_put_iam_policy(s3_bucket_name, s3_path, is_zip_file):
+    res_path = s3_path if is_zip_file else f"{s3_path}/*"
     policy_doc = {
         "Version": "2012-10-17",
         "Statement": [
