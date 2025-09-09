@@ -42,6 +42,6 @@ def get_default_github_repo():
                         else:
                             # https://github.com/owner/repo.git
                             url = url.rstrip("/").split("/")[-2] + "/" + url.rstrip("/").split("/")[-1]
-                        repo = url.strip(".git")
+                        repo = url[:-4] if url.endswith(".git") else url
                         return repo
     return None
