@@ -1,16 +1,15 @@
 from .. import forms, aws, pypi
 
 
-def add_deployment_job(workflow):
-    target = forms.ask_deployment_target()
+def add_deploy_job(workflow):
+    target = forms.ask_deploy_target()
     job_id = f"deploy_to_{target}"
 
     workflow.add_job(job_id)
 
     # get repo and trigger info
-    gh_owner, gh_repo = forms.ask_github_repo_name()
     gh_branch = None
-    trigger = forms.ask_deployment_trigger()
+    trigger = forms.ask_deploy_trigger()
 
     # set the job condition, based on the trigger
     if trigger == "push":
@@ -25,28 +24,30 @@ def add_deployment_job(workflow):
 
     # add the remaining target-specific deployment steps
     if target.startswith("aws_"):
-        aws_account_id = aws.get_account_id()
+        gh_owner, gh_repo = forms.ask_github_repo_name()
 
         if target == "aws_s3":
-            add_s3_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, gh_branch)
+            add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch)
         elif target == "aws_lambda":
-            add_lambda_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, gh_branch)
+            add_lambda_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch)
     elif target == "pypi":
         add_pypi_deploy_job(workflow, job_id)
     elif target == "github_pages":
         add_github_pages_deploy_job(workflow, job_id)
 
-    print(f"Added deployment job: {job_id}")
-
 
 # --- Deploy job helpers ---
-def add_s3_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, gh_branch):
+def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
     ROLE_ENV_VAR = "S3_DEPLOY_ROLE"
 
     workflow.add_download_artifact_step(job_id, path=".")
 
     s3_path = forms.ask_aws_s3_path()
     is_zip_file = s3_path.endswith(".zip")
+
+    print("\nConfiguring S3 deploy permissions in IAM...\n")
+
+    aws_account_id = aws.get_account_id()  # fetching this after all the form questions, since this is slow
     role_arn = aws.create_policy_and_role_for_github_to_s3_deploy(
         aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, is_zip_file
     )
@@ -64,15 +65,20 @@ def add_s3_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, gh_br
     )
 
 
-def add_lambda_deploy_job(workflow, job_id, aws_account_id, gh_owner, gh_repo, gh_branch):
+def add_lambda_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
     ROLE_ENV_VAR = "LAMBDA_DEPLOY_ROLE"
 
     workflow.add_download_artifact_step(job_id, path=".")
 
     function_name = forms.ask_aws_lambda_function_name()
+
+    print("\nConfiguring Lambda deploy permissions in IAM...\n")
+
+    aws_account_id = aws.get_account_id()  # fetching this after all the form questions, since this is slow
     role_arn = aws.create_policy_and_role_for_github_to_lambda_deploy(
         aws_account_id, function_name, gh_owner, gh_repo, gh_branch
     )
+
     aws.add_workflow_fetch_aws_credentials_step(workflow, job_id, role_env_var=ROLE_ENV_VAR)
     aws.add_workflow_lambda_deploy_step(workflow, job_id, function_name, "build.zip")
 

@@ -71,73 +71,57 @@ You'll be guided through a series of prompts to select the deployment target, br
 ```
 $ github-actions-wizard
 
-Select the action to perform:
-1. Add a deployment target
-2. Add a build step
-3. Add a test step
-Enter option number: 1
+Select a workflow template to start with:
+1. Python package - build and publish to PyPI
+2. Static Hugo website - build and deploy to GitHub Pages
+3. Static S3 website - build and deploy to AWS S3
+4. AWS Lambda - deploy a Python function to AWS Lambda
+5. Custom workflow
+Enter option number: 3
 
-Select deployment target:
-1. AWS S3
-2. AWS Lambda
-3. Publish to PyPI
-Enter option number: 1
-
-Enter GitHub repo (e.g., cmdr2/carbon, or full URL): myuser/myrepo
 Select deployment trigger:
 1. On branch push
 2. On release creation
 Enter option number: 1
 
-Enter branch name (will react to pushes on this branch) [default=main]: main
+Enter branch name (will react to pushes on this branch) [default=main]:
+Enter GitHub repo [default=cmdr2/carbon]:
+Enter AWS S3 path to deploy to (e.g., my-bucket-name/some/path (or path/to/file.zip)): me.cmdr2.org/carbon
 
-Select upload format:
-1. Zip to a single file
-2. Copy all files directly
-Enter option number: 1
+Configuring S3 deploy permissions in IAM...
 
-Enter AWS S3 path to deploy to (e.g., my-bucket-name/some/path/file.zip): my-bucket/my-app.zip
-
-... (Automatically creates the necessary IAM roles)
-
-**IMPORTANT:** Please ensure that you set the S3_DEPLOY_ROLE environment variable (in your GitHub repository) to <generated-role-arn>
-Added deployment step: deploy_to_aws_s3
+**IMPORTANT:** Please ensure that you set the S3_DEPLOY_ROLE environment variable (in your GitHub repository) to <generated-arn>
 
 ✅ Workflow update complete. Workflow written: .github/workflows/gha_workflow.yml. Please customize it as necessary.
 ```
 
-After this, pushes to the `main` branch of this repo will automatically upload a zip to AWS S3.
+After this, pushes to the `main` branch of this repo will automatically upload to AWS S3.
 
 ### 2. Deploy to AWS Lambda
 
 ```
 $ github-actions-wizard
 
-Select the action to perform:
-1. Add a deployment target
-2. Add a build step
-3. Add a test step
-Enter option number: 1
-
-Select deployment target:
-1. AWS S3
-2. AWS Lambda
-3. Publish to PyPI
-Enter option number: 2
-
-Enter GitHub repo (e.g., cmdr2/carbon, or full URL): myuser/myrepo
+Select a workflow template to start with:
+1. Python package - build and publish to PyPI
+2. Static Hugo website - build and deploy to GitHub Pages
+3. Static S3 website - build and deploy to AWS S3
+4. AWS Lambda - deploy a Python function to AWS Lambda
+5. Custom workflow
+Enter option number: 4
 
 Select deployment trigger:
 1. On branch push
 2. On release creation
-Enter option number: 2
+Enter option number: 1
 
-Enter the AWS Lambda function name to deploy to: my-lambda-func
+Enter branch name (will react to pushes on this branch) [default=main]:
+Enter GitHub repo [default=cmdr2/blog-agent]:
+Enter the AWS Lambda function name to deploy to (e.g., my-function): blog-agent
 
-... (Automatically creates the necessary IAM roles)
+Configuring Lambda deploy permissions in IAM...
 
-**IMPORTANT:** Please ensure that you set the LAMBDA_DEPLOY_ROLE environment variable (in your GitHub repository) to <generated-role-arn>
-Added deployment step: deploy_to_aws_lambda
+**IMPORTANT:** Please ensure that you set the LAMBDA_DEPLOY_ROLE environment variable (in your GitHub repository) to <generated-arn>
 
 ✅ Workflow update complete. Workflow written: .github/workflows/gha_workflow.yml. Please customize it as necessary.
 ```

@@ -1,7 +1,8 @@
 import os
 
 from . import forms
-from .jobs import add_build_job, add_test_job, add_deployment_job
+from .jobs import add_build_job, add_test_job, add_deploy_job
+from .templates import apply_template
 from .workflow import Workflow
 
 
@@ -19,21 +20,28 @@ def interactive_workflow_wizard():
     workflow = Workflow()
     workflow.load()
 
-    show_workflow_jobs(workflow)
+    template = forms.ask_workflow_template(workflow)
+    if template == "custom":
+        show_workflow_jobs(workflow)
 
-    action = forms.ask_action_to_perform(workflow)
+        action = forms.ask_action_to_perform(workflow)
 
-    if action == "build":
-        add_build_job(workflow)
-    elif action == "test":
-        add_test_job(workflow)
-    elif action == "deploy":
-        add_deployment_job(workflow)
+        if action == "build":
+            add_build_job(workflow)
+        elif action == "test":
+            add_test_job(workflow)
+        elif action == "deploy":
+            add_deploy_job(workflow)
+    else:
+        apply_template(workflow, template)
 
+    write_workflow_file(workflow)
+
+
+def write_workflow_file(workflow):
     update_job_dependencies(workflow)
     ensure_job_order(workflow)
 
-    # Write workflow file
     workflow_file = workflow.save()
     print(f"\n✅ Workflow update complete. Workflow written: {workflow_file}. Please customize it as necessary.")
 

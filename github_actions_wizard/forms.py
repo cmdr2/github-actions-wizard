@@ -1,4 +1,20 @@
+import contextlib
+
 from .cmd import get_default_github_repo
+
+
+def ask_workflow_template(workflow):
+    if workflow.get_jobs_ids():  # workflow already has jobs, can't use a template
+        return "custom"
+
+    options = [
+        ("python_package", "Python package - build and publish to PyPI"),
+        ("static_hugo_website", "Static Hugo website - build and deploy to GitHub Pages"),
+        ("static_s3_website", "Static S3 website - build and deploy to AWS S3"),
+        ("lambda_deploy", "AWS Lambda - deploy a Python function to AWS Lambda"),
+        ("custom", "Custom workflow"),
+    ]
+    return prompt_options("Select a workflow template to start with:", options)
 
 
 def ask_action_to_perform(workflow):
@@ -17,7 +33,7 @@ def ask_action_to_perform(workflow):
 
 def ask_build_type():
     options = [
-        ("copy_all", "No action - copy all files (excluding .git and .github)"),
+        ("copy", "Copy all files (excluding .git and .github)"),
         ("zip", "Zip to a single file"),
         ("python_build", "Python wheel (.whl) and tar.gz package"),
         ("hugo", "Static site with Hugo"),
@@ -25,7 +41,7 @@ def ask_build_type():
     return prompt_options("Select the type of build to perform:", options)
 
 
-def ask_deployment_target():
+def ask_deploy_target():
     target = prompt_options(
         "Select deployment target:",
         [
@@ -50,7 +66,7 @@ def ask_aws_lambda_function_name():
     return function_name
 
 
-def ask_deployment_trigger():
+def ask_deploy_trigger():
     trigger = prompt_options(
         "Select deployment trigger:",
         [
@@ -101,7 +117,36 @@ def prompt_options(prompt, options):
         print(f"{i}. {label}")
     while True:
         choice = input("Enter option number: ").strip()
+        print("")
         if choice.isdigit() and 1 <= int(choice) <= len(options):
             selected = options[int(choice) - 1]
             return selected[0]
         print("Invalid choice. Try again.")
+
+
+@contextlib.contextmanager
+def override_ask_functions(**answers):
+    """
+    Context manager to override ask_ functions in this module with canned answers.
+    Usage:
+        with override_ask_functions(build_type="python_build", github_branch_name="dev"):
+            ...
+    """
+    import sys
+
+    module = sys.modules[__name__]
+    originals = {}
+    try:
+        for key, canned in answers.items():
+            func_name = f"ask_{key}"
+            if hasattr(module, func_name):
+                originals[func_name] = getattr(module, func_name)
+
+                def make_override(canned):
+                    return lambda *a, **kw: canned
+
+                setattr(module, func_name, make_override(canned))
+        yield
+    finally:
+        for name, func in originals.items():
+            setattr(module, name, func)

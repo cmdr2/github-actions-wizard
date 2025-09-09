@@ -91,7 +91,7 @@ def add_workflow_s3_cp_step(workflow, job_id, local_path, s3_path, acl="public-r
 
 
 def add_workflow_s3_sync_step(workflow, job_id, local_path, s3_path):
-    cmd = f"aws s3 sync '{local_path}' 's3://{s3_path}' --exclude '.git/*' --exclude '.github/*' --exclude 'LICENSE' --exclude 'README.md' --exclude '*.sh' --acl public-read"
+    cmd = f"aws s3 sync '{local_path}' 's3://{s3_path}' --acl public-read"
     workflow.add_job_shell_step(job_id, cmd, name="Sync Files to S3")
     return workflow
 
