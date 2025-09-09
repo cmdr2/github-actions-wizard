@@ -24,12 +24,18 @@ I needed this for myself because I release a lot of projects. The deployment tar
 
 ---
 
-## Supported Deployment Targets
+## Supported Targets
 
-Currently, GitHub Actions Wizard supports:
+**Deployment targets:**
 - AWS S3 (static site or zip-and-upload)
 - AWS Lambda (function deployment)
 - Publish to PyPI
+- GitHub Pages
+
+**Build types:**
+- Python wheel (.whl) and tar.gz package
+- Static site with Hugo
+- Dummy build
 
 ---
 
