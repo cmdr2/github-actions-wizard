@@ -25,14 +25,13 @@ jobs:
     - name: Build package
       run: |-
         python -m build
-    - name: Copy pyproject.toml to dist
-      run: |-
-        cp pyproject.toml dist
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: build
-        path: dist
+        path:
+        - dist
+        - pyproject.toml
   deploy_to_pypi:
     runs-on: ubuntu-latest
     permissions:
@@ -45,7 +44,7 @@ jobs:
       uses: actions/download-artifact@v5
       with:
         name: build
-        path: dist
+        path: .
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -56,8 +55,8 @@ jobs:
     - name: Check PyPI version
       id: check-version
       run: |-
-        PACKAGE_NAME=$(python -c "import toml; print(toml.load('dist/pyproject.toml')['project']['name'])")
-        TOML_VERSION=$(python -c "import toml; print(toml.load('dist/pyproject.toml')['project']['version'])")
+        PACKAGE_NAME=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['name'])")
+        TOML_VERSION=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['version'])")
         PYPI_VERSION=$(python -c "import requests; r = requests.get('https://pypi.org/pypi/$PACKAGE_NAME/json'); print(None if r.status_code == 404 else r.json()['info']['version'])")
         echo "Package name: $PACKAGE_NAME"
         echo "Local version: $TOML_VERSION"
