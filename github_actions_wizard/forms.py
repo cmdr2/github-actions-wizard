@@ -11,7 +11,7 @@ def ask_workflow_template(workflow):
         ("python_package", "Python package - build and publish to PyPI"),
         ("static_hugo_website", "Static Hugo website - build and deploy to GitHub Pages"),
         ("static_s3_website", "Static S3 website - build and deploy to AWS S3"),
-        ("lambda_deploy", "AWS Lambda - deploy a Python function to AWS Lambda"),
+        ("lambda_deploy", "AWS Lambda - build and deploy to AWS Lambda"),
         ("custom", "Custom workflow"),
     ]
     return prompt_options("Select a workflow template to start with:", options)
