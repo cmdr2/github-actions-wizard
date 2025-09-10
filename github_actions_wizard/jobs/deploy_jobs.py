@@ -141,8 +141,11 @@ def add_itchio_deploy_job(workflow, job_id):
     workflow.add_job_shell_step(
         job_id,
         [
-            "curl -L https://broth.itch.ovh/butler/linux-amd64-headless/latest/archive/default | tar -xz -C /usr/local/bin butler",
+            "curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler.zip",
+            "unzip butler.zip -d /usr/local/bin",
             "chmod +x /usr/local/bin/butler",
+            "rm butler.zip",
+            "butler -V",
         ],
         name="Install Butler (for itch.io)",
     )
