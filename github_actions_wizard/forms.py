@@ -12,7 +12,7 @@ def ask_workflow_template(workflow):
         ("static_hugo_website", "Static Hugo website - build and deploy to GitHub Pages"),
         ("static_s3_website", "Static S3 website - build and deploy to AWS S3"),
         ("lambda_deploy", "AWS Lambda - build and deploy to AWS Lambda"),
-        ("itch.io", "itch.io - build and publish to itch.io"),
+        ("itch_io", "itch.io - build and publish to itch.io"),
         ("pytest_ci", "Pytest CI - run tests with pytest on push and pull request (test-only)"),
         ("custom", "Custom workflow"),
     ]
@@ -59,7 +59,7 @@ def ask_deploy_target():
             ("aws_lambda", "AWS Lambda"),
             ("pypi", "Publish to PyPI"),
             ("github_pages", "GitHub Pages"),
-            ("itch.io", "Publish to itch.io"),
+            ("itch_io", "Publish to itch.io"),
         ],
     )
     return target

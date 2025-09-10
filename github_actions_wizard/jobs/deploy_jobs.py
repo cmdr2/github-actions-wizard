@@ -40,7 +40,7 @@ def add_deploy_job(workflow):
         add_pypi_deploy_job(workflow, job_id)
     elif target == "github_pages":
         add_github_pages_deploy_job(workflow, job_id)
-    elif target == "itch.io":
+    elif target == "itch_io":
         add_itchio_deploy_job(workflow, job_id)
 
 
