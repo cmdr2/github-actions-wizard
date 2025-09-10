@@ -9,6 +9,7 @@ class Workflow:
     def __init__(self, name="CI Pipeline", run_name="CI Pipeline"):
         self.workflow = {"name": name, "run-name": run_name, "on": {}, "jobs": {}}
         self.file_name = None
+        self.is_new_file = True
 
     def has_job(self, job_id):
         return job_id in self.workflow["jobs"]
@@ -109,12 +110,11 @@ class Workflow:
 
         self._reorder_workflow()
 
-        is_new_file = not os.path.exists(path)
         comment = (
             "# Generated initially using github-actions-wizard (https://github.com/cmdr2/github-actions-wizard)\n\n"
         )
         with open(path, "w") as f:
-            if is_new_file:
+            if self.is_new_file:
                 f.write(comment)
             yaml.dump(self.workflow, f)
         return path
@@ -126,7 +126,8 @@ class Workflow:
 
         with open(path, "r") as f:
             self.workflow = yaml.load(f)
-        return self
+
+        self.is_new_file = False
 
     # utilities for common steps
     def add_checkout_step(self, job_id):

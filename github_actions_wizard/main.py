@@ -49,9 +49,9 @@ def write_workflow_file(workflow):
     update_job_dependencies(workflow)
     ensure_job_order(workflow)
 
-    if workflow.file_name and not os.path.exists(f".github/workflows/{workflow.file_name}"):  # confirm with the user
+    if workflow.file_name and workflow.is_new_file:  # confirm with the user
         workflow.file_name = forms.ask_workflow_file_name(default_filename=workflow.file_name)
-    if not workflow.file_name:
+    elif not workflow.file_name:
         workflow.file_name = forms.ask_workflow_file_name()
 
     workflow_file = workflow.save()
