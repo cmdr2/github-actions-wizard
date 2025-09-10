@@ -52,13 +52,10 @@ def apply_template(workflow, template):
 
     workflow.file_name = template.get("default_workflow_file_name")
 
-    jobs = template.get("jobs", [])
-    jobs.append({"action_to_perform": "quit"})  # ensure we exit the loop
-
-    for job in jobs:
+    for job in template.get("jobs", []):
         answers = job.copy()
         with forms.override_ask_functions(**answers):
-            add_custom_workflow(workflow)
+            add_custom_workflow(workflow, looping=False)
 
     # hack to ensure that test-only workflows have a trigger
     actions = {job.get("action_to_perform") for job in template.get("jobs", [])}

@@ -5,7 +5,7 @@ from .deploy_jobs import add_deploy_job
 from .. import forms
 
 
-def add_custom_workflow(workflow):
+def add_custom_workflow(workflow, looping=True):
     while True:
         action = forms.ask_action_to_perform(workflow)
 
@@ -16,4 +16,7 @@ def add_custom_workflow(workflow):
         elif action == "deploy":
             add_deploy_job(workflow)
         elif action == "quit":
+            break
+
+        if not looping:
             break
