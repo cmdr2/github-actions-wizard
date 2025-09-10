@@ -21,14 +21,14 @@ def ask_workflow_template(workflow):
 
 def ask_action_to_perform(workflow):
     has_build, has_test = workflow.has_job("build"), workflow.has_job("test")
-    if has_build and has_test:
-        return "deploy"
 
     options = [("deploy", "Add a deployment target")]
     if not has_build:
         options.append(("build", "Add a build step"))
     if not has_test:
         options.append(("test", "Add a test step"))
+
+    options.append(("quit", "Save and exit"))
 
     return prompt_options("Select the action to perform:", options)
 

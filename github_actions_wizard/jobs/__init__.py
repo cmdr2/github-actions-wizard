@@ -6,11 +6,14 @@ from .. import forms
 
 
 def add_custom_workflow(workflow):
-    action = forms.ask_action_to_perform(workflow)
+    while True:
+        action = forms.ask_action_to_perform(workflow)
 
-    if action == "build":
-        add_build_job(workflow)
-    elif action == "test":
-        add_test_job(workflow)
-    elif action == "deploy":
-        add_deploy_job(workflow)
+        if action == "build":
+            add_build_job(workflow)
+        elif action == "test":
+            add_test_job(workflow)
+        elif action == "deploy":
+            add_deploy_job(workflow)
+        elif action == "quit":
+            break
