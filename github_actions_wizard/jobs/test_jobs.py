@@ -8,8 +8,6 @@ def add_test_job(workflow):
 
     workflow.add_job(job_id)
 
-    workflow.add_download_artifact_step(job_id, path="build")
-
     if test_type == "pytest":
         add_pytest_test_steps(workflow, job_id)
     elif test_type == "custom":
@@ -19,6 +17,7 @@ def add_test_job(workflow):
 
 
 def add_pytest_test_steps(workflow, job_id):
+    workflow.add_download_artifact_step(job_id, path=".")
     workflow.add_setup_python_step(job_id)
     workflow.add_job_shell_step(
         job_id,
@@ -33,4 +32,5 @@ def add_pytest_test_steps(workflow, job_id):
 
 
 def add_custom_test_steps(workflow, job_id):
+    workflow.add_download_artifact_step(job_id, path="build")
     workflow.add_job_shell_step(job_id, "echo Running tests...", name="Dummy Test Command")
