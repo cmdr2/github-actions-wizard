@@ -60,9 +60,8 @@ def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
     else:
         aws.add_workflow_s3_sync_step(workflow, job_id, ".", s3_path)
 
-    print("")
     print(
-        f"**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} environment variable (in your GitHub repository) to {role_arn}"
+        f"\n**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} environment variable (in your GitHub repository) to {role_arn}\n"
     )
 
 
@@ -83,9 +82,8 @@ def add_lambda_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
     aws.add_workflow_fetch_aws_credentials_step(workflow, job_id, role_env_var=ROLE_ENV_VAR)
     aws.add_workflow_lambda_deploy_step(workflow, job_id, function_name, "build.zip")
 
-    print("")
     print(
-        f"**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} environment variable (in your GitHub repository) to {role_arn}"
+        f"\n**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} environment variable (in your GitHub repository) to {role_arn}\n"
     )
 
 
@@ -97,11 +95,10 @@ def add_pypi_deploy_job(workflow, job_id):
     pypi.add_check_pypi_version_step(workflow, job_id)
     pypi.add_publish_to_pypi_step(workflow, job_id)
 
-    print("")
     print(
-        "**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/"
+        "\n**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/"
     )
-    print(f"Note: You can use the workflow file name ({workflow.file_name}) while configuring the trusted publisher.")
+    print(f"Note: You can use the workflow file name ({workflow.file_name}) while configuring the trusted publisher.\n")
 
 
 def add_github_pages_deploy_job(workflow, job_id):
@@ -147,9 +144,8 @@ def add_itchio_deploy_job(workflow, job_id):
         env={"BUTLER_API_KEY": "${{ secrets.BUTLER_API_KEY }}"},
     )
 
-    print("")
     print(
-        """**IMPORTANT:**
+        """\n**IMPORTANT:**
 1. Please ensure that you've created an API key in your itch.io account (https://itch.io/user/settings/api-keys) and added it as a secret named BUTLER_API_KEY in your GitHub repository.
-2. Also, please add the following variables in your GitHub repository: ITCH_USER (your itch.io username) and ITCH_PROJECT (the name of your itch.io project)."""
+2. Also, please add the following variables in your GitHub repository: ITCH_USER (your itch.io username) and ITCH_PROJECT (the name of your itch.io project).\n"""
     )
