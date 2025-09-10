@@ -60,6 +60,19 @@ class Workflow:
         if field in self.workflow["jobs"][job_id]:
             del self.workflow["jobs"][job_id][field]
 
+    def add_job_step(self, job_id, **step):
+        self.workflow["jobs"][job_id]["steps"].append(step)
+
+    def add_job_shell_step(self, job_id, cmds, **step):
+        if isinstance(cmds, list):
+            run_cmd = "\n".join(cmds)
+        else:
+            run_cmd = cmds
+
+        step["run"] = LiteralScalarString(run_cmd)  # Always use LiteralScalarString for block style (|) in YAML
+        self.add_job_step(job_id, **step)
+        return self
+
     def get_jobs_ids(self):
         return list(self.workflow["jobs"].keys())
 
@@ -83,38 +96,6 @@ class Workflow:
         }
         self.add_job_step(job_id, **step)
 
-    def add_checkout_step(self, job_id):
-        self.add_job_step(job_id, name="Checkout", uses="actions/checkout@v4")
-
-    def replace_checkout_step_with_download_artifact(self, job_id, path="build"):
-        steps = self.workflow["jobs"][job_id]["steps"]
-        for i, step in enumerate(steps):
-            if step.get("uses", "").startswith("actions/checkout@"):
-                steps[i] = {
-                    "name": "Download Artifact",
-                    "uses": "actions/download-artifact@v5",
-                    "with": {"name": "build", "path": path},
-                }
-                break
-        return self
-
-    def add_job_step(self, job_id, **step):
-        self.workflow["jobs"][job_id]["steps"].append(step)
-
-    def add_job_shell_step(self, job_id, cmds, **step):
-        if isinstance(cmds, list):
-            run_cmd = "\n".join(cmds)
-        else:
-            run_cmd = cmds
-
-        step["run"] = LiteralScalarString(run_cmd)  # Always use LiteralScalarString for block style (|) in YAML
-        self.add_job_step(job_id, **step)
-        return self
-
-    def add_cron_step(self, cron):
-        self.workflow["on"]["schedule"] = [{"cron": cron}]
-        return self
-
     def save(self):
         path = f".github/workflows/{self.file_name}"
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -131,7 +112,26 @@ class Workflow:
             yaml.dump(self.workflow, f)
         return path
 
+    def load(self):
+        path = f".github/workflows/{self.file_name}"
+        if not os.path.exists(path):
+            return
+
+        with open(path, "r") as f:
+            self.workflow = yaml.load(f)
+        return self
+
+    # utilities for common steps
+    def add_checkout_step(self, job_id):
+        self.add_job_step(job_id, name="Checkout", uses="actions/checkout@v4")
+
+    def add_cron_step(self, cron):
+        self.workflow["on"]["schedule"] = [{"cron": cron}]
+        return self
+
     def _reorder_workflow(self):
+        "Ensures that 'jobs' is the last key in the workflow, and 'steps' is the last key in each job."
+
         def _reorder_job(job):
             steps = job["steps"]
             del job["steps"]
@@ -144,16 +144,9 @@ class Workflow:
         for job in jobs.values():
             _reorder_job(job)
 
-    def load(self):
-        path = f".github/workflows/{self.file_name}"
-        if not os.path.exists(path):
-            return
-
-        with open(path, "r") as f:
-            self.workflow = yaml.load(f)
-        return self
-
     def reorder_jobs(self, ordered_job_ids):
+        "Applies the new order of jobs as per the given list of job IDs."
+
         ordered_jobs = {
             job_id: self.workflow["jobs"][job_id] for job_id in ordered_job_ids if job_id in self.workflow["jobs"]
         }
