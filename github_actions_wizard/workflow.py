@@ -8,7 +8,7 @@ yaml = YAML()
 class Workflow:
     def __init__(self, name="CI Pipeline", run_name="CI Pipeline"):
         self.workflow = {"name": name, "run-name": run_name, "on": {}, "jobs": {}}
-        self.file_name = "gha_workflow.yml"
+        self.file_name = None
 
     def has_job(self, job_id):
         return job_id in self.workflow["jobs"]
@@ -115,7 +115,7 @@ class Workflow:
     def load(self):
         path = f".github/workflows/{self.file_name}"
         if not os.path.exists(path):
-            return
+            raise FileNotFoundError(f"Workflow file not found: {path}")
 
         with open(path, "r") as f:
             self.workflow = yaml.load(f)

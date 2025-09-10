@@ -64,6 +64,14 @@ def ask_deploy_target():
     return target
 
 
+def ask_workflow_file_name(default_filename="ci_workflow.yml"):
+    file_name = input(f"Save as workflow file name [default={default_filename}]: ").strip()
+    file_name = file_name or default_filename
+    if not file_name.endswith(".yml") and not file_name.endswith(".yaml"):
+        file_name += ".yml"
+    return file_name
+
+
 def ask_aws_s3_path():
     example = "my-bucket-name/some/path (or path/to/file.zip)"
 

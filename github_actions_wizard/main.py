@@ -1,4 +1,5 @@
 import os
+import sys
 
 from . import forms
 from .jobs import add_build_job, add_test_job, add_deploy_job
@@ -18,7 +19,7 @@ def main():
 
 def interactive_workflow_wizard():
     workflow = Workflow()
-    workflow.load()
+    load_workflow(workflow)
 
     template = forms.ask_workflow_template(workflow)
     if template == "custom":
@@ -38,9 +39,28 @@ def interactive_workflow_wizard():
     write_workflow_file(workflow)
 
 
+def load_workflow(workflow):
+    if len(sys.argv) < 2:
+        print("> Starting a new workflow")
+        print(
+            "Tip: If you want to load an existing workflow file, run this command with the workflow file name or path as an argument.\n"
+        )
+        return
+
+    workflow.file_name = sys.argv[1]
+    workflow.file_name = workflow.file_name.removeprefix(".github/workflows/")
+    workflow.load()
+    print(f"> Loaded workflow: {workflow.file_name}\n")
+
+
 def write_workflow_file(workflow):
     update_job_dependencies(workflow)
     ensure_job_order(workflow)
+
+    if workflow.file_name and not os.path.exists(f".github/workflows/{workflow.file_name}"):  # confirm with the user
+        workflow.file_name = forms.ask_workflow_file_name(default_filename=workflow.file_name)
+    if not workflow.file_name:
+        workflow.file_name = forms.ask_workflow_file_name()
 
     workflow_file = workflow.save()
     print(f"\n✅ Workflow update complete. Workflow written: {workflow_file}. Please customize it as necessary.")
