@@ -34,9 +34,10 @@ def add_deploy_job(workflow):
         add_pypi_deploy_job(workflow, job_id)
     elif target == "github_pages":
         add_github_pages_deploy_job(workflow, job_id)
+    elif target == "itch.io":
+        add_itchio_deploy_job(workflow, job_id)
 
 
-# --- Deploy job helpers ---
 def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
     ROLE_ENV_VAR = "S3_DEPLOY_ROLE"
 
@@ -121,4 +122,34 @@ def add_github_pages_deploy_job(workflow, job_id):
 
     workflow.set_job_field(
         job_id, "environment", {"name": "github-pages", "url": "${{ steps.deployment.outputs.page_url }}"}
+    )
+
+
+def add_itchio_deploy_job(workflow, job_id):
+    workflow.add_download_artifact_step(job_id, path=".")
+
+    workflow.add_job_shell_step(
+        job_id,
+        [
+            "curl -L https://broth.itch.ovh/butler/linux-amd64-headless/latest/archive/default | tar -xz -C /usr/local/bin butler",
+            "chmod +x /usr/local/bin/butler",
+        ],
+        name="Install Butler (for itch.io)",
+    )
+
+    workflow.add_job_shell_step(
+        job_id,
+        [
+            "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)",
+            "butler push build.zip '${{ vars.ITCH_USER }}/${{ vars.ITCH_PROJECT }}:release' --userversion '$SHORT_SHA'",
+        ],
+        name="Deploy to itch.io",
+        env={"BUTLER_API_KEY": "${{ secrets.BUTLER_API_KEY }}"},
+    )
+
+    print("")
+    print(
+        """**IMPORTANT:**
+1. Please ensure that you've created an API key in your itch.io account (https://itch.io/user/settings/api-keys) and added it as a secret named BUTLER_API_KEY in your GitHub repository.
+2. Also, please add the following variables in your GitHub repository: ITCH_USER (your itch.io username) and ITCH_PROJECT (the name of your itch.io project)."""
     )

@@ -49,6 +49,7 @@ def ask_deploy_target():
             ("aws_lambda", "AWS Lambda"),
             ("pypi", "Publish to PyPI"),
             ("github_pages", "GitHub Pages"),
+            ("itch.io", "Publish to itch.io"),
         ],
     )
     return target
