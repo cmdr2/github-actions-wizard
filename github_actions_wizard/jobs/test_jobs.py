@@ -26,10 +26,10 @@ def add_pytest_test_steps(workflow, job_id):
             "python -m pip install --upgrade pip",
             "pip install pytest",
             "if [ -f requirements.txt ]; then pip install -r requirements.txt; fi",
-            "python -m pytest",
         ],
-        name="Run tests with pytest",
+        name="Install dependencies",
     )
+    workflow.add_job_shell_step(job_id, "python -m pytest", name="Run tests")
 
 
 def add_custom_test_steps(workflow, job_id):

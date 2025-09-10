@@ -16,6 +16,10 @@ class Workflow:
     def get_jobs(self):
         return self.workflow["jobs"].keys()
 
+    @property
+    def jobs(self):
+        return self.workflow["jobs"]
+
     def set_name(self, name, run_name=None):
         self.workflow["name"] = name
         if run_name:
@@ -27,6 +31,9 @@ class Workflow:
 
     def add_trigger_release(self, types=["created"]):
         self._add_trigger("release", "types", types)
+
+    def add_trigger_pull_request(self, branches):
+        self._add_trigger("pull_request", "branches", branches)
 
     def add_permission(self, permission, level):
         self.workflow["permissions"] = self.workflow.get("permissions", {})

@@ -13,6 +13,7 @@ def ask_workflow_template(workflow):
         ("static_s3_website", "Static S3 website - build and deploy to AWS S3"),
         ("lambda_deploy", "AWS Lambda - build and deploy to AWS Lambda"),
         ("itch.io", "itch.io - build and publish to itch.io"),
+        ("pytest_ci", "Pytest CI - run tests with pytest on push and pull request (test-only)"),
         ("custom", "Custom workflow"),
     ]
     return prompt_options("Select a workflow template to start with:", options)
