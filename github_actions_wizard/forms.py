@@ -12,6 +12,7 @@ def ask_workflow_template(workflow):
         ("static_hugo_website", "Static Hugo website - build and deploy to GitHub Pages"),
         ("static_s3_website", "Static S3 website - build and deploy to AWS S3"),
         ("lambda_deploy", "AWS Lambda - build and deploy to AWS Lambda"),
+        ("itch.io", "itch.io - build and publish to itch.io"),
         ("custom", "Custom workflow"),
     ]
     return prompt_options("Select a workflow template to start with:", options)

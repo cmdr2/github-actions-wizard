@@ -6,6 +6,7 @@ TEMPLATE_ANSWERS = {
     "static_hugo_website": {"build_type": "hugo", "deploy_target": "github_pages"},
     "static_s3_website": {"build_type": "copy", "deploy_target": "aws_s3"},
     "lambda_deploy": {"build_type": "zip", "deploy_target": "aws_lambda"},
+    "itch.io": {"build_type": "zip", "deploy_target": "itch.io"},
 }
 
 
