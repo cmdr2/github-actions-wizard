@@ -143,7 +143,7 @@ class Workflow:
             **{
                 "name": "Set up Python",
                 "uses": "actions/setup-python@v4",
-                "with": {"python-version": python_version},
+                "with": {"python-version": python_version, "cache": "pip"},
             },
         )
 
