@@ -109,7 +109,8 @@ Select a workflow template to start with:
 3. Static S3 website - build and deploy to AWS S3
 4. AWS Lambda - deploy a Python function to AWS Lambda
 5. itch.io - build and publish to itch.io
-6. Custom workflow
+6. Pytest CI - run tests with pytest on push and pull request (test-only)
+7. Custom workflow
 Enter option number: 4
 
 Select deployment trigger:
@@ -141,7 +142,8 @@ Select a workflow template to start with:
 3. Static S3 website - build and deploy to AWS S3
 4. AWS Lambda - deploy a Python function to AWS Lambda
 5. itch.io - build and publish to itch.io
-6. Custom workflow
+6. Pytest CI - run tests with pytest on push and pull request (test-only)
+7. Custom workflow
 Enter option number: 1
 
 Select deployment trigger:
