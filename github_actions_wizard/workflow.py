@@ -141,7 +141,7 @@ class Workflow:
         self.add_job_step(
             job_id,
             **{
-                "name": "Setup Python",
+                "name": "Set up Python",
                 "uses": "actions/setup-python@v4",
                 "with": {"python-version": python_version},
             },
