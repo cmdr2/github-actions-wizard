@@ -135,6 +135,9 @@ def add_github_pages_deploy_job(workflow, job_id):
 def add_itchio_deploy_job(workflow, job_id):
     workflow.add_download_artifact_step(job_id, path=".")
 
+    itch_username = forms.ask_itch_io_user_name()
+    itch_project = forms.ask_itch_io_project_name()
+
     workflow.add_job_shell_step(
         job_id,
         [
@@ -148,14 +151,12 @@ def add_itchio_deploy_job(workflow, job_id):
         job_id,
         [
             "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)",
-            "butler push build.zip '${{ vars.ITCH_USER }}/${{ vars.ITCH_PROJECT }}:release' --userversion '$SHORT_SHA'",
+            f"butler push build.zip '{itch_username}/{itch_project}:release' --userversion '$SHORT_SHA'",
         ],
         name="Deploy to itch.io",
         env={"BUTLER_API_KEY": "${{ secrets.BUTLER_API_KEY }}"},
     )
 
     print(
-        """\n**IMPORTANT:**
-1. Please ensure that you've created an API key in your itch.io account (https://itch.io/user/settings/api-keys) and added it as a secret named BUTLER_API_KEY in your GitHub repository.
-2. Also, please add the following variables in your GitHub repository: ITCH_USER (your itch.io username) and ITCH_PROJECT (the name of your itch.io project).\n"""
+        "\n**IMPORTANT:** Please ensure that you've created an API key in your itch.io account (https://itch.io/user/settings/api-keys) and added it as a secret named BUTLER_API_KEY in your GitHub repository.\n"
     )

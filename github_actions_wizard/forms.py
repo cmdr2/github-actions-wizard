@@ -85,6 +85,16 @@ def ask_aws_lambda_function_name():
     return function_name
 
 
+def ask_itch_io_user_name():
+    user_name = input("Enter your itch.io user name (e.g., freebirdxr): ").strip()
+    return user_name
+
+
+def ask_itch_io_project_name():
+    project_name = input("Enter your itch.io project name (e.g., freebird): ").strip()
+    return project_name
+
+
 def ask_deploy_trigger():
     trigger = prompt_options(
         "Select deployment trigger:",
