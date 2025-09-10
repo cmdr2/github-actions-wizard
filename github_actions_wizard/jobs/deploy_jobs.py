@@ -14,14 +14,14 @@ def add_deploy_job(workflow):
         gh_branch = forms.ask_github_branch_name(help_text="will react to pushes on this branch")
         workflow.add_trigger_push(gh_branch)
 
-        job_id += f"_on_{gh_branch.replace('/', '_')}_branch"
+        job_id += f"_on_{gh_branch.replace('/', '_')}_push"
 
         workflow.add_job(job_id)
         workflow.set_job_field(job_id, "if", f"github.ref == 'refs/heads/{gh_branch}'")
     elif trigger == "release":
         workflow.add_trigger_release(types=["created"])
 
-        job_id += "_on_release_created"
+        job_id += "_on_release"
 
         workflow.add_job(job_id)
         workflow.set_job_field(job_id, "if", "github.event_name == 'release' && github.event.action == 'created'")
@@ -56,7 +56,7 @@ def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
 
     aws_account_id = aws.get_account_id()  # fetching this after all the form questions, since this is slow
 
-    role_name = f"{gh_owner}-{gh_repo}-github-{job_id}"
+    role_name = f"{gh_repo}-github-{job_id.removeprefix('deploy_to_')}"
     role_arn = aws.create_policy_and_role_for_github_to_s3_deploy(
         role_name, aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, is_zip_file
     )
@@ -84,7 +84,7 @@ def add_lambda_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
 
     aws_account_id = aws.get_account_id()  # fetching this after all the form questions, since this is slow
 
-    role_name = f"{gh_owner}-{gh_repo}-github-{job_id}"
+    role_name = f"{gh_repo}-github-{job_id.removeprefix('deploy_to_')}"
     role_arn = aws.create_policy_and_role_for_github_to_lambda_deploy(
         role_name, aws_account_id, function_name, gh_owner, gh_repo, gh_branch
     )
