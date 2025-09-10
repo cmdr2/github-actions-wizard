@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "github-actions-wizard"
-version = "1.4.0"
+version = "1.5.0"
 description = "A simple wizard for generating GitHub Actions workflows for common tasks."
 authors = [
     { name = "cmdr2" }
