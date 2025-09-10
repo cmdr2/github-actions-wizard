@@ -31,6 +31,7 @@ I needed this for myself because I release a lot of projects. The deployment tar
 - AWS Lambda (function deployment)
 - Publish to PyPI
 - GitHub Pages
+- Publish to itch.io
 
 **Build types:**
 - Python wheel (.whl) and tar.gz package
@@ -107,7 +108,8 @@ Select a workflow template to start with:
 2. Static Hugo website - build and deploy to GitHub Pages
 3. Static S3 website - build and deploy to AWS S3
 4. AWS Lambda - deploy a Python function to AWS Lambda
-5. Custom workflow
+5. itch.io - build and publish to itch.io
+6. Custom workflow
 Enter option number: 4
 
 Select deployment trigger:
@@ -138,7 +140,8 @@ Select a workflow template to start with:
 2. Static Hugo website - build and deploy to GitHub Pages
 3. Static S3 website - build and deploy to AWS S3
 4. AWS Lambda - deploy a Python function to AWS Lambda
-5. Custom workflow
+5. itch.io - build and publish to itch.io
+6. Custom workflow
 Enter option number: 1
 
 Select deployment trigger:
