@@ -42,6 +42,14 @@ def ask_build_type():
     return prompt_options("Select the type of build to perform:", options)
 
 
+def ask_test_type():
+    options = [
+        ("pytest", "Run tests with pytest"),
+        ("custom", "Custom test command"),
+    ]
+    return prompt_options("Select the type of test to perform:", options)
+
+
 def ask_deploy_target():
     target = prompt_options(
         "Select deployment target:",
