@@ -1,8 +1,3 @@
-def add_setup_python_step(workflow, job_id):
-    step = {"name": "Set up Python", "uses": "actions/setup-python@v4", "with": {"python-version": "3.x"}}
-    workflow.add_job_step(job_id, **step)
-
-
 def add_install_dependencies_step(workflow, job_id):
     workflow.add_job_shell_step(
         job_id,

@@ -34,7 +34,7 @@ def add_zip_build_steps(workflow, job_id):
 
 
 def add_python_build_steps(workflow, job_id):
-    pypi.add_setup_python_step(workflow, job_id)
+    workflow.add_setup_python_step(job_id)
     pypi.add_install_dependencies_step(workflow, job_id)
     pypi.add_build_package_step(workflow, job_id)
     workflow.add_upload_artifact_step(job_id, path=["dist", "pyproject.toml"])

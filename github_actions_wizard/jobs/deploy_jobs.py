@@ -92,7 +92,7 @@ def add_lambda_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
 def add_pypi_deploy_job(workflow, job_id):
     workflow.add_download_artifact_step(job_id, path=".")
 
-    pypi.add_setup_python_step(workflow, job_id)
+    workflow.add_setup_python_step(job_id)
     workflow.add_job_shell_step(job_id, ["python -m pip install --upgrade pip", "pip install toml requests"])
     pypi.add_check_pypi_version_step(workflow, job_id)
     pypi.add_publish_to_pypi_step(workflow, job_id)

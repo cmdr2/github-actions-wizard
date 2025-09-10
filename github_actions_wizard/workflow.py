@@ -129,6 +129,16 @@ class Workflow:
         self.workflow["on"]["schedule"] = [{"cron": cron}]
         return self
 
+    def add_setup_python_step(self, job_id, python_version="3.x"):
+        self.add_job_step(
+            job_id,
+            **{
+                "name": "Setup Python",
+                "uses": "actions/setup-python@v4",
+                "with": {"python-version": python_version},
+            },
+        )
+
     def _reorder_workflow(self):
         "Ensures that 'jobs' is the last key in the workflow, and 'steps' is the last key in each job."
 

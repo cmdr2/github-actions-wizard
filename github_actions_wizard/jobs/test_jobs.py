@@ -19,14 +19,7 @@ def add_test_job(workflow):
 
 
 def add_pytest_test_steps(workflow, job_id):
-    workflow.add_job_step(
-        job_id,
-        **{
-            "name": "Setup Python",
-            "uses": "actions/setup-python@v4",
-            "with": {"python-version": "3.x"},
-        },
-    )
+    workflow.add_setup_python_step(job_id)
     workflow.add_job_shell_step(
         job_id,
         [
