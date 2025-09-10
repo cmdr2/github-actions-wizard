@@ -67,6 +67,8 @@ def fix_test_only_workflow(workflow):
     workflow.add_trigger_push(branches=["main"])
     workflow.add_trigger_pull_request(branches=["main"])
 
+    workflow.set_name("CI Tests", run_name="CI Tests")
+
     # replace download-artifact with checkout, since there is no build job
     def replace_download_with_checkout():
         for job in workflow.jobs.values():
