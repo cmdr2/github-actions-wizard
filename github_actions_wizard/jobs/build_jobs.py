@@ -18,6 +18,8 @@ def add_build_job(workflow):
     elif build_type == "hugo":
         add_hugo_build_steps(workflow, job_id)
 
+    print(f"\nBuild job '{job_id}' added to the workflow.\n")
+
 
 def add_copy_build_steps(workflow, job_id):
     workflow.add_job_shell_step(

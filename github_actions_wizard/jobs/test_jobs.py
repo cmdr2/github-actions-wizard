@@ -13,7 +13,7 @@ def add_test_job(workflow):
     elif test_type == "custom":
         add_custom_test_steps(workflow, job_id)
 
-    print("\nAdded test job. The deployment steps will now run after the tests pass\n")
+    print(f"\nTest job '{job_id}' added to the workflow.\n")
 
 
 def add_pytest_test_steps(workflow, job_id):
