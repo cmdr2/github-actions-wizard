@@ -22,11 +22,11 @@ def ask_workflow_template(workflow):
 def ask_action_to_perform(workflow):
     has_build, has_test = workflow.has_job("build"), workflow.has_job("test")
 
-    options = [("deploy", "Add a deployment target")]
+    options = [("deploy", "Add a deployment job")]
     if not has_build:
-        options.append(("build", "Add a build step"))
+        options.append(("build", "Add a build job"))
     if not has_test:
-        options.append(("test", "Add a test step"))
+        options.append(("test", "Add a test job"))
 
     options.append(("quit", "Save and exit"))
 
