@@ -45,7 +45,7 @@ def add_deploy_job(workflow):
     elif target == "gh_release":
         add_gh_release_deploy_job(workflow, job_id)
 
-    print(f"\nDeployment job '{job_id}' added to the workflow.\n")
+    return job_id
 
 
 def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):

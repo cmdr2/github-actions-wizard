@@ -10,13 +10,15 @@ def add_custom_workflow(workflow, looping=True):
         action = forms.ask_action_to_perform(workflow)
 
         if action == "build":
-            add_build_job(workflow)
+            job_id = add_build_job(workflow)
         elif action == "test":
-            add_test_job(workflow)
+            job_id = add_test_job(workflow)
         elif action == "deploy":
-            add_deploy_job(workflow)
+            job_id = add_deploy_job(workflow)
         elif action == "quit":
             break
+
+        print(f"\n✅ Job '{job_id}' added to the workflow.\n")
 
         if not looping:
             break
