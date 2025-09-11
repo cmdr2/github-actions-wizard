@@ -60,6 +60,7 @@ def ask_deploy_target():
             ("pypi", "Publish to PyPI"),
             ("github_pages", "GitHub Pages"),
             ("itch_io", "Publish to itch.io"),
+            ("gh_release", "Add to GitHub Release"),
         ],
     )
     return target

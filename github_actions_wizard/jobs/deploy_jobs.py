@@ -42,6 +42,8 @@ def add_deploy_job(workflow):
         add_github_pages_deploy_job(workflow, job_id)
     elif target == "itch_io":
         add_itchio_deploy_job(workflow, job_id)
+    elif target == "gh_release":
+        add_gh_release_deploy_job(workflow, job_id)
 
 
 def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
@@ -162,4 +164,18 @@ def add_itchio_deploy_job(workflow, job_id):
 
     print(
         "\n**IMPORTANT:** Please ensure that you've created an API key in your itch.io account (https://itch.io/user/settings/api-keys) and added it as a secret named BUTLER_API_KEY in your GitHub repository.\n"
+    )
+
+
+def add_gh_release_deploy_job(workflow, job_id):
+    workflow.add_download_artifact_step(job_id, path=".")
+
+    workflow.add_job_step(
+        job_id,
+        **{
+            "name": "Release",
+            "uses": "softprops/action-gh-release@v2",
+            "if": "github.ref_type == 'tag'",
+            "with": {"files": "build.zip"},
+        },
     )
