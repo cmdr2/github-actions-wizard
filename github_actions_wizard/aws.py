@@ -112,10 +112,17 @@ def _get_s3_put_iam_policy(s3_bucket_name, s3_path, is_zip_file):
                 "Action": ["s3:PutObject", "s3:PutObjectAcl"],
                 "Effect": "Allow",
                 "Resource": [f"arn:aws:s3:::{res_path}"],
-            },
-            {"Action": ["s3:ListBucket"], "Effect": "Allow", "Resource": [f"arn:aws:s3:::{s3_bucket_name}"]},
+            }
         ],
     }
+    if not is_zip_file:  # needs this for 'aws s3 sync'
+        policy_doc["Statement"].append(
+            {
+                "Action": ["s3:ListBucket"],
+                "Effect": "Allow",
+                "Resource": [f"arn:aws:s3:::{s3_bucket_name}"],
+            }
+        )
     return as_temp_file(policy_doc, suffix="-s3-put-policy.json")
 
 
@@ -134,7 +141,12 @@ def _get_lambda_update_iam_policy(function_name):
 
 
 def _get_github_iam_trust_policy(aws_account_id, gh_owner, gh_repo, gh_branch):
-    ref = f"ref:refs/heads/{gh_branch}" if gh_branch else "ref:refs/tags/*"
+    sub = f"repo:{gh_owner}/{gh_repo}:ref:refs"
+    condition = {
+        "StringEquals": {
+            "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+        }
+    }
     policy_doc = {
         "Version": "2012-10-17",
         "Statement": [
@@ -144,15 +156,16 @@ def _get_github_iam_trust_policy(aws_account_id, gh_owner, gh_repo, gh_branch):
                     "Federated": f"arn:aws:iam::{aws_account_id}:oidc-provider/token.actions.githubusercontent.com"
                 },
                 "Action": "sts:AssumeRoleWithWebIdentity",
-                "Condition": {
-                    "StringEquals": {
-                        "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-                        "token.actions.githubusercontent.com:sub": f"repo:{gh_owner}/{gh_repo}:{ref}",
-                    }
-                },
+                "Condition": condition,
             }
         ],
     }
+    if gh_branch is None:  # is a release
+        condition["StringLike"] = {}
+        condition["StringLike"]["token.actions.githubusercontent.com:sub"] = f"{sub}/tags/*"
+    else:
+        condition["StringEquals"]["token.actions.githubusercontent.com:sub"] = f"{sub}/heads/{gh_branch}"
+
     return as_temp_file(policy_doc, suffix="-github-trust-policy.json")
 
 
