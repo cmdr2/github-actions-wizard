@@ -46,8 +46,6 @@ class Workflow:
     def add_job(self, job_id, **job):
         job["runs-on"] = job.get("runs-on", "ubuntu-latest")
         job["steps"] = []
-        if "needs" in job and not isinstance(job["needs"], list):
-            job["needs"] = [job["needs"]]
 
         self.workflow["jobs"][job_id] = job
 

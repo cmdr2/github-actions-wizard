@@ -6,7 +6,7 @@ def add_post_deploy_job(workflow):
     parent_job_id = forms.ask_parent_deploy_job_id(workflow.get_job_ids())
 
     job_id = f"post_deploy_{post_deploy_type}"
-    workflow.add_job(job_id, needs=[parent_job_id])
+    workflow.add_job(job_id, needs=parent_job_id)
 
     if post_deploy_type == "http_call":
         add_http_call_post_deploy_steps(workflow, job_id)
