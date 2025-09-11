@@ -21,12 +21,16 @@ def ask_workflow_template(workflow):
 
 def ask_action_to_perform(workflow):
     has_build, has_test = workflow.has_job("build"), workflow.has_job("test")
+    has_deploy = any(job_id.startswith("deploy") for job_id in workflow.get_job_ids())
 
     options = [("deploy", "Add a deployment job")]
     if not has_build:
         options.append(("build", "Add a build job"))
     if not has_test:
         options.append(("test", "Add a test job"))
+
+    if has_deploy:
+        options.append(("post_deploy", "Add a post-deployment job"))
 
     options.append(("quit", "Save and exit"))
 
@@ -66,6 +70,14 @@ def ask_deploy_target():
     return target
 
 
+def ask_post_deploy_type():
+    options = [
+        ("http_call", "Call an HTTP endpoint (e.g. to test a URL, or trigger a webhook)"),
+        ("custom", "Custom command"),
+    ]
+    return prompt_options("Select the type of post-deployment action to perform:", options)
+
+
 def ask_workflow_file_name(default_filename="ci_workflow.yml"):
     file_name = prompt_entry("Enter workflow file name", default=default_filename)
     if not file_name.endswith(".yml") and not file_name.endswith(".yaml"):
@@ -102,6 +114,13 @@ def ask_deploy_trigger():
     return trigger
 
 
+def ask_parent_deploy_job_id(job_ids):
+    if not job_ids:
+        raise ValueError("No jobs available to select as parent deploy job.")
+    job_options = [(job_id, job_id) for job_id in job_ids if job_id.startswith("deploy")]
+    return prompt_options("Select the parent deploy job for this post-deployment action:", job_options)
+
+
 def ask_github_repo_name():
     default_repo = get_default_github_repo()
     prompt_str = "Enter GitHub repo"
@@ -121,6 +140,26 @@ def ask_github_repo_name():
 
 def ask_github_branch_name(help_text="will react to pushes on this branch"):
     return prompt_entry(f"Enter branch name ({help_text})", default="main")
+
+
+def ask_http_endpoint_url():
+    return prompt_entry("Enter the HTTP endpoint URL to call (e.g., https://example.com/webhook)")
+
+
+def ask_http_method():
+    options = [
+        ("GET", "GET"),
+        ("POST", "POST"),
+    ]
+    return prompt_options("Select the HTTP method to use:", options)
+
+
+def ask_http_json_body():
+    return prompt_entry("Enter the HTTP request JSON body (for POST requests)", default="{}")
+
+
+def ask_http_response_string_to_check():
+    return prompt_entry("Enter the string to check in the HTTP response. Leave blank to skip this check.", default="")
 
 
 def prompt_entry(prompt, **kwargs):
