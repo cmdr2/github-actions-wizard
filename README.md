@@ -24,7 +24,16 @@ I needed this for myself because I release a lot of projects. The deployment tar
 
 ---
 
-## Supported Targets
+## Workflow Templates
+- **Python package** - build and publish to PyPI
+- **Static Hugo website** - build and deploy to GitHub Pages
+- **Static S3 website** - build and deploy to AWS S3
+- **AWS Lambda** - build and deploy to AWS Lambda
+- **itch.io** - build and publish to itch.io
+- **Pytest CI** - run tests with pytest on push and pull request (test-only)
+- **Custom workflow**
+
+## Custom Workflows
 
 **Deployment targets:**
 - AWS S3 (static site or zip-and-upload)
@@ -32,6 +41,7 @@ I needed this for myself because I release a lot of projects. The deployment tar
 - Publish to PyPI
 - GitHub Pages
 - Publish to itch.io
+- Add build artifacts to GitHub release
 
 **Build types:**
 - Python wheel (.whl) and tar.gz package
