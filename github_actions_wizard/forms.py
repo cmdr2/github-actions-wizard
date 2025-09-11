@@ -4,7 +4,7 @@ from .cmd import get_default_github_repo
 
 
 def ask_workflow_template(workflow):
-    if workflow.get_jobs_ids():  # workflow already has jobs, can't use a template
+    if workflow.get_job_ids():  # workflow already has jobs, can't use a template
         return "custom"
 
     options = [

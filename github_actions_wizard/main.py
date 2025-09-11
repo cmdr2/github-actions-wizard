@@ -59,7 +59,7 @@ def write_workflow_file(workflow):
 
 
 def show_workflow_jobs(workflow):
-    jobs = workflow.get_jobs_ids()
+    jobs = workflow.get_job_ids()
     if jobs:
         print("Current workflow jobs:")
         for job in jobs:
@@ -72,7 +72,7 @@ def ensure_job_order(workflow):
     Reorders jobs in the workflow so that build comes first, then test, then all deploy jobs, then others.
     Does NOT modify dependencies.
     """
-    jobs = workflow.get_jobs_ids()
+    jobs = workflow.get_job_ids()
     build_jobs = [j for j in jobs if j == "build"]
     test_jobs = [j for j in jobs if j == "test"]
     deploy_jobs = [j for j in jobs if j.startswith("deploy_to_")]
@@ -87,7 +87,7 @@ def update_job_dependencies(workflow):
     has_build = workflow.has_job("build")
     has_test = workflow.has_job("test")
 
-    for job_id in workflow.get_jobs_ids():
+    for job_id in workflow.get_job_ids():
         if job_id.startswith("deploy_to_"):
             if has_test:
                 workflow.set_job_field(job_id, "needs", "test")

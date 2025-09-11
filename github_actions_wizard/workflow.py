@@ -81,7 +81,7 @@ class Workflow:
         self.add_job_step(job_id, **step)
         return self
 
-    def get_jobs_ids(self):
+    def get_job_ids(self):
         return list(self.workflow["jobs"].keys())
 
     def add_upload_artifact_step(self, job_id, name="Upload Artifact", path="build"):
