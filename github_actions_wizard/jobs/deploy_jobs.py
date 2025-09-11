@@ -170,6 +170,7 @@ def add_itchio_deploy_job(workflow, job_id):
 
 
 def add_gh_release_deploy_job(workflow, job_id):
+    workflow.add_job_permission(job_id, "contents", "write")
     workflow.add_download_artifact_step(job_id, path=".")
 
     workflow.add_job_step(
