@@ -67,8 +67,7 @@ def ask_deploy_target():
 
 
 def ask_workflow_file_name(default_filename="ci_workflow.yml"):
-    file_name = input(f"Save as workflow file name [default={default_filename}]: ").strip()
-    file_name = file_name or default_filename
+    file_name = prompt_entry("Enter workflow file name", default=default_filename)
     if not file_name.endswith(".yml") and not file_name.endswith(".yaml"):
         file_name += ".yml"
     return file_name
@@ -77,23 +76,19 @@ def ask_workflow_file_name(default_filename="ci_workflow.yml"):
 def ask_aws_s3_path():
     example = "my-bucket-name/some/path (or path/to/file.zip)"
 
-    s3_path = input(f"Enter AWS S3 path to deploy to (e.g., {example}): ").strip()
-    return s3_path
+    return prompt_entry(f"Enter AWS S3 path to deploy to (e.g., {example})")
 
 
 def ask_aws_lambda_function_name():
-    function_name = input("Enter the AWS Lambda function name to deploy to (e.g., my-function): ").strip()
-    return function_name
+    return prompt_entry("Enter your AWS Lambda function name (e.g., my-function)")
 
 
 def ask_itch_io_user_name():
-    user_name = input("Enter your itch.io user name (e.g., freebirdxr): ").strip()
-    return user_name
+    return prompt_entry("Enter your itch.io user name (e.g., freebirdxr)")
 
 
 def ask_itch_io_project_name():
-    project_name = input("Enter your itch.io project name (e.g., freebird): ").strip()
-    return project_name
+    return prompt_entry("Enter your itch.io project name (e.g., freebird)")
 
 
 def ask_deploy_trigger():
@@ -111,15 +106,9 @@ def ask_github_repo_name():
     default_repo = get_default_github_repo()
     prompt_str = "Enter GitHub repo"
     if default_repo:
-        prompt_str += f" [default={default_repo}]"
+        github_repo = prompt_entry(prompt_str, default=default_repo)
     else:
-        prompt_str += " (e.g., cmdr2/carbon, or full URL)"
-    github_repo = input(f"{prompt_str}: ").strip() or default_repo
-
-    if not github_repo:
-        print("No GitHub repo provided.")
-        exit(1)
-        return None, None
+        github_repo = prompt_entry(f"{prompt_str} (e.g., cmdr2/carbon, or full URL)")
 
     if github_repo.startswith("http://") or github_repo.startswith("https://"):
         parts = github_repo.rstrip("/").split("/")
@@ -131,8 +120,19 @@ def ask_github_repo_name():
 
 
 def ask_github_branch_name(help_text="will react to pushes on this branch"):
-    branch = input(f"Enter branch name ({help_text}) [default=main]: ").strip()
-    return branch or "main"
+    return prompt_entry(f"Enter branch name ({help_text})", default="main")
+
+
+def prompt_entry(prompt, **kwargs):
+    has_default = "default" in kwargs
+    prompt = prompt.strip()
+    prompt = prompt if not has_default else f"{prompt} [default={kwargs['default']}]"
+    while True:
+        response = input(f"{prompt}: ").strip()
+        if not response and not has_default:
+            print("This field is required. Please enter a value.")
+            continue
+        return response or kwargs["default"]
 
 
 def prompt_options(prompt, options):
