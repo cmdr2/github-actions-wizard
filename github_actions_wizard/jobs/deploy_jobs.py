@@ -55,6 +55,10 @@ def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
 
     s3_path = forms.ask_aws_s3_path()
     is_zip_file = s3_path.endswith(".zip")
+    if not is_zip_file:
+        sync_command = forms.ask_s3_sync_command()
+        if sync_command == "s3_sync_changes":
+            aws.add_workflow_install_s3_sync_changes_step(workflow, job_id)
 
     print("\nConfiguring S3 deploy permissions in IAM...\n")
 
@@ -69,6 +73,8 @@ def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
 
     if is_zip_file:
         aws.add_workflow_s3_cp_step(workflow, job_id, "build.zip", s3_path)
+    elif sync_command == "s3_sync_changes":
+        aws.add_workflow_s3_sync_changes_step(workflow, job_id, ".", s3_path)
     else:
         aws.add_workflow_s3_cp_step(workflow, job_id, ".", s3_path, recursive=True)
 

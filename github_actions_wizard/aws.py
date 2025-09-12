@@ -91,6 +91,30 @@ def add_workflow_s3_cp_step(workflow, job_id, local_path, s3_path, acl="public-r
     return workflow
 
 
+def add_workflow_s3_sync_changes_step(workflow, job_id, local_path, s3_path, acl="public-read"):
+    # add python
+    workflow.add_setup_python_step(job_id)
+
+    # add s3-sync-changes
+    cmd = f"python /usr/local/bin/s3-sync-changes.py '{local_path}' 's3://{s3_path}' --acl {acl}"
+    workflow.add_job_shell_step(job_id, cmd, name="Sync Changed Files to S3")
+    return workflow
+
+
+def add_workflow_install_s3_sync_changes_step(workflow, job_id):
+    S3_SYNC_SCRIPT = "https://github.com/cmdr2/s3-sync-changes/releases/latest/download/s3-sync-changes.py"
+
+    workflow.add_job_shell_step(
+        job_id,
+        [
+            f"curl -o /usr/local/bin/s3-sync-changes.py {S3_SYNC_SCRIPT}",
+            "chmod +x /usr/local/bin/s3-sync-changes.py",
+        ],
+        name="Install s3-sync-changes",
+    )
+    return workflow
+
+
 def add_workflow_lambda_deploy_step(workflow, job_id, function_name, zip_file):
     cmd = f"aws lambda update-function-code --function-name '{function_name}' --zip-file 'fileb://{zip_file}' --query LastUpdateStatus"
     workflow.add_job_shell_step(job_id, cmd, name="Deploy to Lambda")
@@ -109,6 +133,16 @@ def _get_s3_put_iam_policy(s3_path, is_zip_file):
             }
         ],
     }
+    if not is_zip_file:  # needs ListBucket permission for syncing multiple files
+        bucket_name = s3_path.split("/")[0]
+        policy_doc["Statement"].append(
+            {
+                "Action": ["s3:ListBucket"],
+                "Effect": "Allow",
+                "Resource": [f"arn:aws:s3:::{bucket_name}"],
+            }
+        )
+
     return as_temp_file(policy_doc, suffix="-s3-put-policy.json")
 
 

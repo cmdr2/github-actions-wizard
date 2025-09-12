@@ -103,6 +103,24 @@ def ask_itch_io_project_name():
     return prompt_entry("Enter your itch.io project name (e.g., freebird)")
 
 
+def ask_s3_sync_command():
+    prompt = "Choose the copy command for AWS S3 deployment"
+    options = [
+        (
+            "s3_sync_changes",
+            "**recommended** s3-sync-changes - only uploads changed files. Adds a workflow dependency on https://github.com/cmdr2/s3-sync-changes",
+        ),
+        (
+            "aws_s3_copy",
+            "'aws s3 cp' - will upload every file on every deployment. No extra dependencies.",
+        ),
+    ]
+    print(
+        "Note: the official 'aws s3 sync' command is not listed here since it's not useful on GitHub Actions. This is because it relies on file timestamps (which are reset in every checkout), and '--size-only' is risky."
+    )
+    return prompt_options(prompt, options)
+
+
 def ask_deploy_trigger():
     trigger = prompt_options(
         "Select deployment trigger:",
