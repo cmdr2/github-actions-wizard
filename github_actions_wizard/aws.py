@@ -92,11 +92,9 @@ def add_workflow_s3_cp_step(workflow, job_id, local_path, s3_path, acl="public-r
 
 
 def add_workflow_s3_sync_changes_step(workflow, job_id, local_path, s3_path, acl="public-read"):
-    # add python
     workflow.add_setup_python_step(job_id, add_cache=False)
 
-    # add s3-sync-changes
-    cmd = f"python /usr/local/bin/s3-sync-changes.py '{local_path}' 's3://{s3_path}' --acl {acl}"
+    cmd = f"python /tmp/s3-sync-changes.py '{local_path}' 's3://{s3_path}' --acl {acl}"
     workflow.add_job_shell_step(job_id, cmd, name="Sync Changed Files to S3")
     return workflow
 
@@ -106,10 +104,7 @@ def add_workflow_install_s3_sync_changes_step(workflow, job_id):
 
     workflow.add_job_shell_step(
         job_id,
-        [
-            f"curl -o /usr/local/bin/s3-sync-changes.py {S3_SYNC_SCRIPT}",
-            "chmod +x /usr/local/bin/s3-sync-changes.py",
-        ],
+        f"curl -L -o /tmp/s3-sync-changes.py {S3_SYNC_SCRIPT}",
         name="Install s3-sync-changes",
     )
     return workflow
