@@ -103,7 +103,7 @@ Enter AWS S3 path to deploy to (e.g., my-bucket-name/some/path (or path/to/file.
 
 Configuring S3 deploy permissions in IAM...
 
-**IMPORTANT:** Please ensure that you set the S3_DEPLOY_ROLE environment variable (in your GitHub repository) to <generated-arn>
+⚠️ **IMPORTANT:** Please ensure that you set the S3_DEPLOY_ROLE environment variable (in your GitHub repository) to <generated-arn>
 
 ✅ Workflow update complete. Workflow written: .github/workflows/gha_workflow.yml. Please customize it as necessary.
 ```
@@ -136,7 +136,7 @@ Enter the AWS Lambda function name to deploy to (e.g., my-function): blog-agent
 
 Configuring Lambda deploy permissions in IAM...
 
-**IMPORTANT:** Please ensure that you set the LAMBDA_DEPLOY_ROLE environment variable (in your GitHub repository) to <generated-arn>
+⚠️ **IMPORTANT:** Please ensure that you set the LAMBDA_DEPLOY_ROLE environment variable (in your GitHub repository) to <generated-arn>
 
 ✅ Workflow update complete. Workflow written: .github/workflows/gha_workflow.yml. Please customize it as necessary.
 ```
@@ -163,7 +163,7 @@ Select deployment trigger:
 2. On release creation
 Enter option number: 2
 
-**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/
+⚠️ **IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/
 Note: You can use the workflow file name (gha_workflow.yml) while configuring the trusted publisher.
 
 ✅ Workflow update complete. Workflow written: .github/workflows/gha_workflow.yml. Please customize it as necessary.

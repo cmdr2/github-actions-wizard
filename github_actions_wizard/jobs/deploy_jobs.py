@@ -79,7 +79,7 @@ def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
         aws.add_workflow_s3_cp_step(workflow, job_id, ".", s3_path, recursive=True)
 
     print(
-        f"\n**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} secret variable (in your GitHub repository) to {role_arn}\n"
+        f"\n⚠️ **IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} secret variable (in your GitHub repository) to {role_arn}\n"
     )
 
 
@@ -103,7 +103,7 @@ def add_lambda_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
     aws.add_workflow_lambda_deploy_step(workflow, job_id, function_name, "build.zip")
 
     print(
-        f"\n**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} secret variable (in your GitHub repository) to {role_arn}\n"
+        f"\n⚠️ **IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} secret variable (in your GitHub repository) to {role_arn}\n"
     )
 
 
@@ -116,7 +116,7 @@ def add_pypi_deploy_job(workflow, job_id):
     pypi.add_publish_to_pypi_step(workflow, job_id)
 
     print(
-        "\n**IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/"
+        "\n⚠️ **IMPORTANT:** Please ensure that you've added GitHub as a trusted publisher in your PyPI account: https://docs.pypi.org/trusted-publishers/"
     )
     print(f"Note: You can use the workflow file name ({workflow.file_name}) while configuring the trusted publisher.\n")
 
@@ -171,7 +171,7 @@ def add_itchio_deploy_job(workflow, job_id):
     )
 
     print(
-        "\n**IMPORTANT:** Please ensure that you've created an API key in your itch.io account (https://itch.io/user/settings/api-keys) and added it as a secret named BUTLER_API_KEY in your GitHub repository.\n"
+        "\n⚠️ **IMPORTANT:** Please ensure that you've created an API key in your itch.io account (https://itch.io/user/settings/api-keys) and added it as a secret named BUTLER_API_KEY in your GitHub repository.\n"
     )
 
 
