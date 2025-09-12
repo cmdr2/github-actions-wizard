@@ -14,7 +14,11 @@ def main():
 
     print("""# GitHub Actions Wizard\nhttps://github.com/cmdr2/github-actions-wizard\n""")
 
-    interactive_workflow_wizard()
+    try:
+        interactive_workflow_wizard()
+    except KeyboardInterrupt:
+        print("\n\nExiting without saving changes.")
+        sys.exit(0)
 
 
 def interactive_workflow_wizard():
