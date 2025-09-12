@@ -93,7 +93,7 @@ def add_workflow_s3_cp_step(workflow, job_id, local_path, s3_path, acl="public-r
 
 def add_workflow_s3_sync_changes_step(workflow, job_id, local_path, s3_path, acl="public-read"):
     # add python
-    workflow.add_setup_python_step(job_id)
+    workflow.add_setup_python_step(job_id, add_cache=False)
 
     # add s3-sync-changes
     cmd = f"python /usr/local/bin/s3-sync-changes.py '{local_path}' 's3://{s3_path}' --acl {acl}"

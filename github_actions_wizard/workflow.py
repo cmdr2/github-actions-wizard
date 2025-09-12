@@ -135,14 +135,17 @@ class Workflow:
         self.workflow["on"]["schedule"] = [{"cron": cron}]
         return self
 
-    def add_setup_python_step(self, job_id, python_version="3.x"):
+    def add_setup_python_step(self, job_id, python_version="3.x", add_cache=True):
+        step = {
+            "name": "Set up Python",
+            "uses": "actions/setup-python@v4",
+            "with": {"python-version": python_version},
+        }
+        if add_cache:
+            step["with"]["cache"] = "pip"
         self.add_job_step(
             job_id,
-            **{
-                "name": "Set up Python",
-                "uses": "actions/setup-python@v4",
-                "with": {"python-version": python_version, "cache": "pip"},
-            },
+            **step,
         )
 
     def _reorder_workflow(self):
