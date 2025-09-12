@@ -31,9 +31,7 @@ def create_policy_and_role_for_github_deploy(aws_account_id, gh_owner, gh_repo, 
 def create_policy_and_role_for_github_to_s3_deploy(
     role_name, aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, is_zip_file
 ):
-    s3_bucket_name = s3_path.split("/")[0]
-
-    policy_doc = _get_s3_put_iam_policy(s3_bucket_name, s3_path, is_zip_file)
+    policy_doc = _get_s3_put_iam_policy(s3_path, is_zip_file)
 
     role_arn = create_policy_and_role_for_github_deploy(
         aws_account_id, gh_owner, gh_repo, gh_branch, role_name, policy_doc
@@ -85,15 +83,11 @@ def add_workflow_fetch_aws_credentials_step(workflow, job_id, role_env_var, aws_
     return workflow
 
 
-def add_workflow_s3_cp_step(workflow, job_id, local_path, s3_path, acl="public-read"):
+def add_workflow_s3_cp_step(workflow, job_id, local_path, s3_path, acl="public-read", recursive=False):
     cmd = f"aws s3 cp '{local_path}' 's3://{s3_path}' --acl {acl}"
+    if recursive:
+        cmd += " --recursive"
     workflow.add_job_shell_step(job_id, cmd, name="Upload File to S3")
-    return workflow
-
-
-def add_workflow_s3_sync_step(workflow, job_id, local_path, s3_path):
-    cmd = f"aws s3 sync '{local_path}' 's3://{s3_path}' --acl public-read"
-    workflow.add_job_shell_step(job_id, cmd, name="Sync Files to S3")
     return workflow
 
 
@@ -103,7 +97,7 @@ def add_workflow_lambda_deploy_step(workflow, job_id, function_name, zip_file):
     return workflow
 
 
-def _get_s3_put_iam_policy(s3_bucket_name, s3_path, is_zip_file):
+def _get_s3_put_iam_policy(s3_path, is_zip_file):
     res_path = s3_path if is_zip_file else f"{s3_path}/*"
     policy_doc = {
         "Version": "2012-10-17",
@@ -115,14 +109,6 @@ def _get_s3_put_iam_policy(s3_bucket_name, s3_path, is_zip_file):
             }
         ],
     }
-    if not is_zip_file:  # needs this for 'aws s3 sync'
-        policy_doc["Statement"].append(
-            {
-                "Action": ["s3:ListBucket"],
-                "Effect": "Allow",
-                "Resource": [f"arn:aws:s3:::{s3_bucket_name}"],
-            }
-        )
     return as_temp_file(policy_doc, suffix="-s3-put-policy.json")
 
 

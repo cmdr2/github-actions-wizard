@@ -68,9 +68,9 @@ def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
     aws.add_workflow_fetch_aws_credentials_step(workflow, job_id, role_env_var=ROLE_ENV_VAR)
 
     if is_zip_file:
-        aws.add_workflow_s3_cp_step(workflow, job_id, "build.zip", s3_path, acl="public-read")
+        aws.add_workflow_s3_cp_step(workflow, job_id, "build.zip", s3_path)
     else:
-        aws.add_workflow_s3_sync_step(workflow, job_id, ".", s3_path)
+        aws.add_workflow_s3_cp_step(workflow, job_id, ".", s3_path, recursive=True)
 
     print(
         f"\n**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} environment variable (in your GitHub repository) to {role_arn}\n"
