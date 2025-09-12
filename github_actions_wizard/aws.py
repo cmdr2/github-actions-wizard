@@ -75,7 +75,7 @@ def add_workflow_fetch_aws_credentials_step(workflow, job_id, role_env_var, aws_
         "name": "Configure AWS credentials",
         "uses": "aws-actions/configure-aws-credentials@v4",
         "with": {
-            "role-to-assume": "${{ vars." + role_env_var + " }}",
+            "role-to-assume": "${{ secrets." + role_env_var + " }}",
             "aws-region": aws_region,
         },
     }

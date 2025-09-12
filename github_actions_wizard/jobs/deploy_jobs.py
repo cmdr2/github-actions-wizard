@@ -73,7 +73,7 @@ def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
         aws.add_workflow_s3_cp_step(workflow, job_id, ".", s3_path, recursive=True)
 
     print(
-        f"\n**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} environment variable (in your GitHub repository) to {role_arn}\n"
+        f"\n**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} secret variable (in your GitHub repository) to {role_arn}\n"
     )
 
 
@@ -97,7 +97,7 @@ def add_lambda_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
     aws.add_workflow_lambda_deploy_step(workflow, job_id, function_name, "build.zip")
 
     print(
-        f"\n**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} environment variable (in your GitHub repository) to {role_arn}\n"
+        f"\n**IMPORTANT:** Please ensure that you set the {ROLE_ENV_VAR} secret variable (in your GitHub repository) to {role_arn}\n"
     )
 
 
