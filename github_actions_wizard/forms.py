@@ -189,6 +189,7 @@ def prompt_entry(prompt, **kwargs):
         if not response and not has_default:
             print("This field is required. Please enter a value.")
             continue
+        print("")
         return response or kwargs["default"]
 
 
