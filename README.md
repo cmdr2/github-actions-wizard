@@ -175,6 +175,9 @@ Note: You can use the workflow file name (gha_workflow.yml) while configuring th
 
 After generation, you can edit the workflow YAML file in `.github/workflows` to add project-specific steps or modify the configuration as needed.
 
+## FAQ
+Please see [this page](https://github.com/cmdr2/github-actions-wizard/wiki/FAQ) for frequently asked questions.
+
 ---
 
 ## License
