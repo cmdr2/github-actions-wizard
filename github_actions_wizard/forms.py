@@ -209,6 +209,29 @@ def prompt_options(prompt, options):
         print("Invalid choice. Try again.")
 
 
+def prompt_yes_no(prompt, default="yes"):
+    """
+    Prompt the user for a yes/no question and return True for yes and False for no.
+    Default is "yes" or "no".
+    """
+    prompt = prompt.strip()
+    default = default.lower()
+    if default not in ("yes", "no"):
+        raise ValueError("Default must be 'yes' or 'no'")
+    prompt_suffix = " [Y/n]: " if default == "yes" else " [y/N]: "
+    while True:
+        choice = input(f"{prompt}{prompt_suffix}").strip().lower()
+        if not choice:
+            choice = default
+        if choice in ("y", "yes"):
+            print("")
+            return True
+        if choice in ("n", "no"):
+            print("")
+            return False
+        print("Invalid choice. Please enter 'y' or 'n'.")
+
+
 @contextlib.contextmanager
 def override_ask_functions(**answers):
     """
