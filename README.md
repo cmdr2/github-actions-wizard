@@ -8,6 +8,26 @@ It goes beyond simple workflow generation by automatically setting up necessary 
 
 To use it, run the `github-actions-wizard` CLI tool in your repository's folder, and answer the interactive prompts. The generated workflow file will be saved in your repository's `.github/workflows` folder. You can customize the file further, as necessary.
 
+## Installation
+
+You can install GitHub Actions Wizard via pip:
+
+```sh
+pip install github-actions-wizard
+```
+
+This will install the command-line tool as `github-actions-wizard`.
+
+## Usage
+
+Run the wizard from the root of your Git repository:
+
+```sh
+github-actions-wizard
+```
+
+You'll be guided through a series of prompts to select the deployment target, branch, and other details. The tool will then generate the appropriate workflow YAML file and, for AWS deployments, set up the required IAM roles and policies.
+
 ---
 
 ## Features
@@ -51,30 +71,6 @@ I needed this for myself because I release a lot of projects. The deployment tar
 - Python wheel (.whl) and tar.gz package
 - Static site with Hugo
 - Dummy build
-
----
-
-## Installation
-
-You can install GitHub Actions Wizard via pip:
-
-```sh
-pip install github-actions-wizard
-```
-
-This will install the command-line tool as `github-actions-wizard`.
-
----
-
-## Usage
-
-Run the wizard from the root of your Git repository:
-
-```sh
-github-actions-wizard
-```
-
-You'll be guided through a series of prompts to select the deployment target, branch, and other details. The tool will then generate the appropriate workflow YAML file and, for AWS deployments, set up the required IAM roles and policies.
 
 ---
 
