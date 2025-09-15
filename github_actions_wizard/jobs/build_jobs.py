@@ -24,7 +24,10 @@ def add_build_job(workflow):
 def add_copy_build_steps(workflow, job_id):
     workflow.add_job_shell_step(
         job_id,
-        ["mkdir build", "rsync -av --exclude '.git' --exclude '.github' --exclude 'build' ./ build/"],
+        [
+            "mkdir build",
+            "rsync -av --exclude '.git' --exclude '.github' --exclude 'README.md' --exclude 'LICENSE' --exclude 'build' ./ build/",
+        ],
         name="Copy files into the build",
     )
     workflow.add_upload_artifact_step(job_id, path="build")
