@@ -9,6 +9,7 @@ def ask_workflow_template(workflow):
 
     options = [
         ("python_package", "Python package - build and publish to PyPI"),
+        ("node_package", "npm package - build and publish to npm"),
         ("static_hugo_website", "Static Hugo website - build and deploy to GitHub Pages"),
         ("static_s3_website", "Static S3 website - build and deploy to AWS S3"),
         ("lambda_deploy", "AWS Lambda - build and deploy to AWS Lambda"),
@@ -62,6 +63,7 @@ def ask_deploy_target():
             ("aws_s3", "AWS S3"),
             ("aws_lambda", "AWS Lambda"),
             ("pypi", "Publish to PyPI"),
+            ("npm", "Publish to npm"),
             ("github_pages", "GitHub Pages"),
             ("itch_io", "Publish to itch.io"),
             ("gh_release", "Add to GitHub Release"),

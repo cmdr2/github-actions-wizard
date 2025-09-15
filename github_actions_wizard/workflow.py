@@ -148,6 +148,19 @@ class Workflow:
             **step,
         )
 
+    def add_setup_node_step(self, job_id, node_version="lts", add_cache=True):
+        step = {
+            "name": "Set up Node.js",
+            "uses": "actions/setup-node@v5",
+            "with": {"node-version": node_version},
+        }
+        if add_cache:
+            step["with"]["cache"] = "npm"
+        self.add_job_step(
+            job_id,
+            **step,
+        )
+
     def _reorder_workflow(self):
         "Ensures that 'jobs' is the last key in the workflow, and 'steps' is the last key in each job."
 

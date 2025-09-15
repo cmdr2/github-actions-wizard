@@ -28,6 +28,7 @@ I needed this for myself because I release a lot of projects. The deployment tar
 
 ## Workflow Templates
 - **Python package** - build and publish to PyPI
+- **npm package** - build and publish to npm
 - **Static Hugo website** - build and deploy to GitHub Pages
 - **Static S3 website** - build and deploy to AWS S3
 - **AWS Lambda** - build and deploy to AWS Lambda
@@ -41,6 +42,7 @@ I needed this for myself because I release a lot of projects. The deployment tar
 - AWS S3 (static site or zip-and-upload)
 - AWS Lambda (function deployment)
 - Publish to PyPI
+- Publish to npm
 - GitHub Pages
 - Publish to itch.io
 - Add build artifacts to GitHub release
@@ -117,12 +119,13 @@ $ github-actions-wizard
 
 Select a workflow template to start with:
 1. Python package - build and publish to PyPI
-2. Static Hugo website - build and deploy to GitHub Pages
-3. Static S3 website - build and deploy to AWS S3
-4. AWS Lambda - deploy a Python function to AWS Lambda
-5. itch.io - build and publish to itch.io
-6. Pytest CI - run tests with pytest on push and pull request (test-only)
-7. Custom workflow
+2. npm package - build and publish to npm
+3. Static Hugo website - build and deploy to GitHub Pages
+4. Static S3 website - build and deploy to AWS S3
+5. AWS Lambda - deploy a Python function to AWS Lambda
+6. itch.io - build and publish to itch.io
+7. Pytest CI - run tests with pytest on push and pull request (test-only)
+8. Custom workflow
 Enter option number: 4
 
 Select deployment trigger:
@@ -150,12 +153,13 @@ $ github-actions-wizard
 
 Select a workflow template to start with:
 1. Python package - build and publish to PyPI
-2. Static Hugo website - build and deploy to GitHub Pages
-3. Static S3 website - build and deploy to AWS S3
-4. AWS Lambda - deploy a Python function to AWS Lambda
-5. itch.io - build and publish to itch.io
-6. Pytest CI - run tests with pytest on push and pull request (test-only)
-7. Custom workflow
+2. npm package - build and publish to npm
+3. Static Hugo website - build and deploy to GitHub Pages
+4. Static S3 website - build and deploy to AWS S3
+5. AWS Lambda - deploy a Python function to AWS Lambda
+6. itch.io - build and publish to itch.io
+7. Pytest CI - run tests with pytest on push and pull request (test-only)
+8. Custom workflow
 Enter option number: 1
 
 Select deployment trigger:

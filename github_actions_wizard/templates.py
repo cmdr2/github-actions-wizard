@@ -12,6 +12,13 @@ TEMPLATES = {
             {"action_to_perform": "deploy", "deploy_target": "pypi"},
         ],
     },
+    "node_package": {
+        "default_workflow_file_name": CI_DEPLOY_FILE,
+        "jobs": [
+            {"action_to_perform": "build", "build_type": "copy"},
+            {"action_to_perform": "deploy", "deploy_target": "npm"},
+        ],
+    },
     "static_hugo_website": {
         "default_workflow_file_name": CI_DEPLOY_FILE,
         "jobs": [

@@ -44,6 +44,8 @@ def add_deploy_job(workflow):
         add_itchio_deploy_job(workflow, job_id)
     elif target == "gh_release":
         add_gh_release_deploy_job(workflow, job_id)
+    elif target == "npm":
+        add_npm_deploy_job(workflow, job_id)
 
     return job_id
 
@@ -187,4 +189,20 @@ def add_gh_release_deploy_job(workflow, job_id):
             "if": "github.ref_type == 'tag'",
             "with": {"files": "build.zip"},
         },
+    )
+
+
+def add_npm_deploy_job(workflow, job_id):
+    workflow.add_download_artifact_step(job_id, path=".")
+
+    workflow.add_setup_node_step(job_id)
+    workflow.add_job_shell_step(
+        job_id,
+        ["npm install", "npm publish"],
+        name="Publish to npm",
+        env={"NODE_AUTH_TOKEN": "${{ secrets.NPM_TOKEN }}"},
+    )
+
+    print(
+        "\n⚠️ **IMPORTANT:** Please ensure that you've created an access token in your npm account (https://www.npmjs.com/settings/~your-username~/tokens) with 'Automation' permissions and added it as a secret named NPM_TOKEN in your GitHub repository.\n"
     )
