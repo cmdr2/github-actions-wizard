@@ -84,11 +84,14 @@ $ github-actions-wizard
 
 Select a workflow template to start with:
 1. Python package - build and publish to PyPI
-2. Static Hugo website - build and deploy to GitHub Pages
-3. Static S3 website - build and deploy to AWS S3
-4. AWS Lambda - deploy a Python function to AWS Lambda
-5. Custom workflow
-Enter option number: 3
+2. npm package - build and publish to npm
+3. Static Hugo website - build and deploy to GitHub Pages
+4. Static S3 website - build and deploy to AWS S3
+5. AWS Lambda - deploy a Python function to AWS Lambda
+6. itch.io - build and publish to itch.io
+7. Pytest CI - run tests with pytest on push and pull request (test-only)
+8. Custom workflow
+Enter option number: 4
 
 Select deployment trigger:
 1. On branch push
@@ -122,7 +125,7 @@ Select a workflow template to start with:
 6. itch.io - build and publish to itch.io
 7. Pytest CI - run tests with pytest on push and pull request (test-only)
 8. Custom workflow
-Enter option number: 4
+Enter option number: 5
 
 Select deployment trigger:
 1. On branch push
