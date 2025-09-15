@@ -148,7 +148,7 @@ class Workflow:
             **step,
         )
 
-    def add_setup_node_step(self, job_id, node_version="lts", add_cache=True):
+    def add_setup_node_step(self, job_id, node_version="22.x", add_cache=True):
         step = {
             "name": "Set up Node.js",
             "uses": "actions/setup-node@v5",
