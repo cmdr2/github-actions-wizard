@@ -152,7 +152,7 @@ class Workflow:
         step = {
             "name": "Set up Node.js",
             "uses": "actions/setup-node@v5",
-            "with": {"node-version": node_version},
+            "with": {"node-version": node_version, "registry-url": "https://registry.npmjs.org"},
         }
         if add_cache:
             step["with"]["cache"] = "npm"
