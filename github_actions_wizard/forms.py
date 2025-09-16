@@ -11,7 +11,8 @@ def ask_workflow_template(workflow):
         ("python_package", "Python package - build and publish to PyPI"),
         ("node_package", "npm package - build and publish to npm"),
         ("static_hugo_website", "Static Hugo website - build and deploy to GitHub Pages"),
-        ("static_s3_website", "Static S3 website - build and deploy to AWS S3"),
+        ("static_s3_website", "Static website - build and deploy to AWS S3"),
+        ("static_cloudflare_pages", "Static website - build and deploy to Cloudflare Pages"),
         ("lambda_deploy", "AWS Lambda - build and deploy to AWS Lambda"),
         ("itch_io", "itch.io - build and publish to itch.io"),
         ("pytest_ci", "Pytest CI - run tests with pytest on push and pull request (test-only)"),
@@ -65,6 +66,7 @@ def ask_deploy_target():
             ("pypi", "Publish to PyPI"),
             ("npm", "Publish to npm"),
             ("github_pages", "GitHub Pages"),
+            ("cloudflare_pages", "Cloudflare Pages"),
             ("itch_io", "Publish to itch.io"),
             ("gh_release", "Add to GitHub Release"),
         ],
@@ -177,6 +179,10 @@ def ask_http_json_body():
 
 def ask_http_response_string_to_check():
     return prompt_entry("Enter the string to check in the HTTP response. Leave blank to skip this check.", default="")
+
+
+def ask_cloudflare_pages_project_name():
+    return prompt_entry("Enter your Cloudflare Pages project name (e.g., my-cloudflare-pages-project)")
 
 
 def prompt_entry(prompt, **kwargs):

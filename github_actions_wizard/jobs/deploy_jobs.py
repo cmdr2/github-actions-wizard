@@ -46,6 +46,8 @@ def add_deploy_job(workflow):
         add_gh_release_deploy_job(workflow, job_id)
     elif target == "npm":
         add_npm_deploy_job(workflow, job_id)
+    elif target == "cloudflare_pages":
+        add_cloudflare_pages_deploy_job(workflow, job_id)
 
     return job_id
 
@@ -205,4 +207,32 @@ def add_npm_deploy_job(workflow, job_id):
 
     print(
         "\n⚠️ **IMPORTANT:** Please ensure that you've created an access token in your npm account (https://www.npmjs.com/settings/~your-username~/tokens) with 'Automation' permissions and added it as a secret named NPM_TOKEN in your GitHub repository.\n"
+    )
+
+
+def add_cloudflare_pages_deploy_job(workflow, job_id):
+    workflow.add_download_artifact_step(job_id, path=".")
+
+    cloudflare_project_name = forms.ask_cloudflare_pages_project_name()
+
+    workflow.add_job_step(
+        job_id,
+        **{
+            "name": "Deploy to Cloudflare Pages",
+            "uses": "cloudflare/wrangler-action@v3",
+            "with": {
+                "apiToken": "${{ secrets.CLOUDFLARE_API_TOKEN }}",
+                "accountId": "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}",
+                "command": f"pages deploy . --project-name={cloudflare_project_name}",
+            },
+        },
+    )
+
+    print(
+        """
+⚠️ **IMPORTANT:** Please ensure that you've:
+1. Created an API token in your Cloudflare account under 'Account API tokens' permissions and added it as a secret named CLOUDFLARE_API_TOKEN in your GitHub repository.
+2. You've given 'Account > Cloudflare Pages > Edit' permissions to the token.
+3. Added your Cloudflare Account ID as a secret named CLOUDFLARE_ACCOUNT_ID in your GitHub repository.
+"""
     )

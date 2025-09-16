@@ -33,6 +33,13 @@ TEMPLATES = {
             {"action_to_perform": "deploy", "deploy_target": "aws_s3"},
         ],
     },
+    "static_cloudflare_pages": {
+        "default_workflow_file_name": CI_DEPLOY_FILE,
+        "jobs": [
+            {"action_to_perform": "build", "build_type": "copy"},
+            {"action_to_perform": "deploy", "deploy_target": "cloudflare_pages"},
+        ],
+    },
     "lambda_deploy": {
         "default_workflow_file_name": CI_DEPLOY_FILE,
         "jobs": [
