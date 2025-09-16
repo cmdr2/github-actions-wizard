@@ -10,7 +10,7 @@ def ask_workflow_template(workflow):
     options = [
         ("python_package", "Python package - build and publish to PyPI"),
         ("node_package", "npm package - build and publish to npm"),
-        ("static_hugo_website", "Static Hugo website - build and deploy to GitHub Pages"),
+        ("static_hugo_website", "Static website - build and deploy to GitHub Pages"),
         ("static_s3_website", "Static website - build and deploy to AWS S3"),
         ("static_cloudflare_pages", "Static website - build and deploy to Cloudflare Pages"),
         ("lambda_deploy", "AWS Lambda - build and deploy to AWS Lambda"),

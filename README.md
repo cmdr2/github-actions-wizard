@@ -51,6 +51,7 @@ I needed this for myself because I release a lot of projects. The deployment tar
 - **npm package** - build and publish to npm
 - **Static Hugo website** - build and deploy to GitHub Pages
 - **Static S3 website** - build and deploy to AWS S3
+- **Static Cloudflare Pages website** - build and deploy to Cloudflare Pages
 - **AWS Lambda** - build and deploy to AWS Lambda
 - **itch.io** - build and publish to itch.io
 - **Pytest CI** - run tests with pytest on push and pull request (test-only)
@@ -64,6 +65,7 @@ I needed this for myself because I release a lot of projects. The deployment tar
 - Publish to PyPI
 - Publish to npm
 - GitHub Pages
+- Cloudflare Pages
 - Publish to itch.io
 - Add build artifacts to GitHub release
 
@@ -85,12 +87,13 @@ $ github-actions-wizard
 Select a workflow template to start with:
 1. Python package - build and publish to PyPI
 2. npm package - build and publish to npm
-3. Static Hugo website - build and deploy to GitHub Pages
-4. Static S3 website - build and deploy to AWS S3
-5. AWS Lambda - deploy a Python function to AWS Lambda
-6. itch.io - build and publish to itch.io
-7. Pytest CI - run tests with pytest on push and pull request (test-only)
-8. Custom workflow
+3. Static website - build and deploy to GitHub Pages
+4. Static website - build and deploy to AWS S3
+5. Static website - build and deploy to Cloudflare Pages
+6. AWS Lambda - deploy a Python function to AWS Lambda
+7. itch.io - build and publish to itch.io
+8. Pytest CI - run tests with pytest on push and pull request (test-only)
+9. Custom workflow
 Enter option number: 4
 
 Select deployment trigger:
@@ -119,13 +122,14 @@ $ github-actions-wizard
 Select a workflow template to start with:
 1. Python package - build and publish to PyPI
 2. npm package - build and publish to npm
-3. Static Hugo website - build and deploy to GitHub Pages
-4. Static S3 website - build and deploy to AWS S3
-5. AWS Lambda - deploy a Python function to AWS Lambda
-6. itch.io - build and publish to itch.io
-7. Pytest CI - run tests with pytest on push and pull request (test-only)
-8. Custom workflow
-Enter option number: 5
+3. Static website - build and deploy to GitHub Pages
+4. Static website - build and deploy to AWS S3
+5. Static website - build and deploy to Cloudflare Pages
+6. AWS Lambda - deploy a Python function to AWS Lambda
+7. itch.io - build and publish to itch.io
+8. Pytest CI - run tests with pytest on push and pull request (test-only)
+9. Custom workflow
+Enter option number: 6
 
 Select deployment trigger:
 1. On branch push
@@ -153,12 +157,13 @@ $ github-actions-wizard
 Select a workflow template to start with:
 1. Python package - build and publish to PyPI
 2. npm package - build and publish to npm
-3. Static Hugo website - build and deploy to GitHub Pages
-4. Static S3 website - build and deploy to AWS S3
-5. AWS Lambda - deploy a Python function to AWS Lambda
-6. itch.io - build and publish to itch.io
-7. Pytest CI - run tests with pytest on push and pull request (test-only)
-8. Custom workflow
+3. Static website - build and deploy to GitHub Pages
+4. Static website - build and deploy to AWS S3
+5. Static website - build and deploy to Cloudflare Pages
+6. AWS Lambda - deploy a Python function to AWS Lambda
+7. itch.io - build and publish to itch.io
+8. Pytest CI - run tests with pytest on push and pull request (test-only)
+9. Custom workflow
 Enter option number: 1
 
 Select deployment trigger:
