@@ -231,7 +231,7 @@ def add_cloudflare_pages_deploy_job(workflow, job_id):
     print(
         """
 ⚠️ **IMPORTANT:** Please ensure that you've:
-1. Created an API token in your Cloudflare account under 'Account API tokens' permissions and added it as a secret named CLOUDFLARE_API_TOKEN in your GitHub repository.
+1. Created an API token in your Cloudflare account under 'Account API tokens' permissions.
 2. You've given 'Account > Cloudflare Pages > Edit' permissions to the token.
 3. Added your Cloudflare Account ID as a secret named CLOUDFLARE_ACCOUNT_ID in your GitHub repository.
 """
