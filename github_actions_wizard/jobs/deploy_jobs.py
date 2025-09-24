@@ -64,11 +64,11 @@ def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
         if sync_command == "s3_sync_changes":
             aws.add_workflow_install_s3_sync_changes_step(workflow, job_id)
 
+    iam_prefix = forms.ask_iam_prefix(default=gh_repo)
+
     print("\nConfiguring S3 deploy permissions in IAM...\n")
 
     aws_account_id = aws.get_account_id()  # fetching this after all the form questions, since this is slow
-
-    iam_prefix = forms.ask_iam_prefix(default=gh_repo)
 
     role_name = f"{iam_prefix}-github-{job_id.removeprefix('deploy_to_')}"
     role_arn = aws.create_policy_and_role_for_github_to_s3_deploy(
@@ -95,12 +95,11 @@ def add_lambda_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
     workflow.add_download_artifact_step(job_id, path=".")
 
     function_name = forms.ask_aws_lambda_function_name()
+    iam_prefix = forms.ask_iam_prefix(default=gh_repo)
 
     print("\nConfiguring Lambda deploy permissions in IAM...\n")
 
     aws_account_id = aws.get_account_id()  # fetching this after all the form questions, since this is slow
-
-    iam_prefix = forms.ask_iam_prefix(default=gh_repo)
 
     role_name = f"{iam_prefix}-github-{job_id.removeprefix('deploy_to_')}"
     role_arn = aws.create_policy_and_role_for_github_to_lambda_deploy(
