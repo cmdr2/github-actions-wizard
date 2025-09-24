@@ -68,7 +68,9 @@ def add_s3_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
 
     aws_account_id = aws.get_account_id()  # fetching this after all the form questions, since this is slow
 
-    role_name = f"{gh_repo}-github-{job_id.removeprefix('deploy_to_')}"
+    iam_prefix = forms.ask_iam_prefix(default=gh_repo)
+
+    role_name = f"{iam_prefix}-github-{job_id.removeprefix('deploy_to_')}"
     role_arn = aws.create_policy_and_role_for_github_to_s3_deploy(
         role_name, aws_account_id, s3_path, gh_owner, gh_repo, gh_branch, is_zip_file
     )
@@ -98,7 +100,9 @@ def add_lambda_deploy_job(workflow, job_id, gh_owner, gh_repo, gh_branch):
 
     aws_account_id = aws.get_account_id()  # fetching this after all the form questions, since this is slow
 
-    role_name = f"{gh_repo}-github-{job_id.removeprefix('deploy_to_')}"
+    iam_prefix = forms.ask_iam_prefix(default=gh_repo)
+
+    role_name = f"{iam_prefix}-github-{job_id.removeprefix('deploy_to_')}"
     role_arn = aws.create_policy_and_role_for_github_to_lambda_deploy(
         role_name, aws_account_id, function_name, gh_owner, gh_repo, gh_branch
     )

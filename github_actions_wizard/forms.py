@@ -122,6 +122,10 @@ def ask_s3_sync_command():
     return prompt_options(prompt, options)
 
 
+def ask_iam_prefix(default):
+    return prompt_entry("Enter the IAM role prefix to use", default=default)
+
+
 def ask_deploy_trigger():
     trigger = prompt_options(
         "Select deployment trigger:",
